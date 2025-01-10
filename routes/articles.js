@@ -4,6 +4,9 @@ const Article = require('../models/Article'); // Import the Article model
 
 // POST: Create an article
 router.post('/', async (req, res) => {
+    console.log('POST /api/articles called');
+    console.log('Request Body:', req.body);
+
     const { title, summary, content, category, image_url, publish_date } = req.body;
     try {
         const newArticle = new Article({
@@ -23,6 +26,7 @@ router.post('/', async (req, res) => {
 
 // GET: Retrieve all articles
 router.get('/', async (req, res) => {
+    console.log('GET /api/articles called');
     try {
         const articles = await Article.find(); // Fetch all articles from the database
         res.json(articles);
