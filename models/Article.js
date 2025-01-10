@@ -5,8 +5,8 @@ const ArticleSchema = new mongoose.Schema({
     summary: { type: String, required: true },
     content: { type: String, required: true },
     category: { type: String, required: true },
+    image_url: { type: String },
     publish_date: { type: Date, default: Date.now },
-    image_url: { type: String, required: false },
 });
 
 module.exports = mongoose.model('Article', ArticleSchema);

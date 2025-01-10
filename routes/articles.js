@@ -1,26 +1,35 @@
 const express = require('express');
 const router = express.Router();
-const Article = require('../models/Article'); // Ensure the path to Article.js is correct
+const Article = require('../models/Article'); // Import the Article model
 
-// Get all articles
+// POST: Create an article
+router.post('/', async (req, res) => {
+    const { title, summary, content, category, image_url, publish_date } = req.body;
+    try {
+        const newArticle = new Article({
+            title,
+            summary,
+            content,
+            category,
+            image_url,
+            publish_date,
+        });
+        await newArticle.save(); // Save the article to the database
+        res.status(201).json(newArticle);
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to create article', details: err.message });
+    }
+});
+
+// GET: Retrieve all articles
 router.get('/', async (req, res) => {
     try {
-        const articles = await Article.find();
+        const articles = await Article.find(); // Fetch all articles from the database
         res.json(articles);
     } catch (err) {
-        res.status(500).json({ message: err.message });
+        res.status(500).json({ error: 'Failed to fetch articles', details: err.message });
     }
 });
 
-// Add a new article
-router.post('/', async (req, res) => {
-    const article = new Article(req.body);
-    try {
-        const savedArticle = await article.save();
-        res.status(201).json(savedArticle);
-    } catch (err) {
-        res.status(400).json({ message: err.message });
-    }
-});
-
+// Export the router
 module.exports = router;
