@@ -49,12 +49,11 @@ router.get('/', async (req, res) => {
 
 // GET: Retrieve front-page articles
 router.get('/front-page', async (req, res) => {
-    console.log('GET /api/articles/front-page called');
     try {
-        const frontPageArticles = await Article.find({ front_page: true }).sort({ publish_date: -1 });
+        const frontPageArticles = await Article.find({ front_page: true });
         res.json(frontPageArticles);
     } catch (err) {
-        res.status(500).json({ error: 'Failed to fetch front-page articles', details: err.message });
+        res.status(500).json({ error: 'Failed to fetch front-page articles' });
     }
 });
 
