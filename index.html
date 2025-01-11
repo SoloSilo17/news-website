@@ -17,15 +17,15 @@
     </header>
 
     <main>
-        <section id="primera_pagina"> <!-- Updated ID -->
-            <h2>Artículos Destacados</h2> <!-- Featured Articles in Spanish -->
+        <section id="primera_pagina">
+            <h2>Artículos Destacados</h2>
             <!-- Articles will be dynamically inserted here -->
         </section>
     </main>
 
     <nav>
         <a href="inicio">Inicio</a>
-        <a hrefl="nacional">Nacional</a>
+        <a href="nacional">Nacional</a>
         <a href="internacional">Internacional</a>
         <a href="deportes">Deportes</a>
         <a href="cultura">Cultura</a>
@@ -41,8 +41,8 @@
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
             try {
-                const apiUrl = process.env.API_URL || 'http://localhost:5000';
-                const response = await fetch(`${apiUrl}/api/articles`);
+                const apiUrl = 'https://news-website-production.up.railway.app'; // Update with your API URL
+                const response = await fetch(`${apiUrl}/api/articles/front-page`); // Updated endpoint for front-page articles
                 const articles = await response.json(); // Parse the JSON response
                 const container = document.querySelector('.container'); // Get the container element
 
@@ -67,4 +67,3 @@
     </script>
 </body>
 </html>
-

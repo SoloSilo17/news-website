@@ -7,7 +7,7 @@ router.post('/', async (req, res) => {
     console.log('POST /api/articles called');
     console.log('Request Body:', req.body);
 
-    const { title, summary, content, category, image_url, publish_date } = req.body;
+    const { title, summary, content, category, image_url, publish_date, front_page } = req.body;
     try {
         const newArticle = new Article({
             title,
@@ -16,6 +16,7 @@ router.post('/', async (req, res) => {
             category,
             image_url,
             publish_date,
+            front_page: front_page || false, // Default to false if not provided
         });
         await newArticle.save(); // Save the article to the database
         res.status(201).json(newArticle);
@@ -35,5 +36,17 @@ router.get('/', async (req, res) => {
     }
 });
 
+// GET: Retrieve front-page articles
+router.get('/front-page', async (req, res) => {
+    console.log('GET /api/articles/front-page called');
+    try {
+        const frontPageArticles = await Article.find({ front_page: true }); // Fetch articles marked as front-page
+        res.json(frontPageArticles);
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to fetch front-page articles', details: err.message });
+    }
+});
+
 // Export the router
 module.exports = router;
+
