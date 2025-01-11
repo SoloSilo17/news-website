@@ -7,6 +7,7 @@ const ArticleSchema = new mongoose.Schema({
     category: { type: String, required: true },
     image_url: { type: String },
     publish_date: { type: Date, default: Date.now },
+    front_page: { type: Boolean, default: false }, // Add this field
 });
 
 module.exports = mongoose.model('Article', ArticleSchema);
