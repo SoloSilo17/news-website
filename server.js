@@ -19,7 +19,7 @@ mongoose
     .catch(err => console.error('Database connection error:', err));
 
 // Routes
-app.use('/api/articles', articlesRoutes); // Mount the articles routes
+app.use('/api/articles/front-page', articlesRoutes); // Mount the articles routes
 
 // Default route
 app.get('/', (req, res) => {
