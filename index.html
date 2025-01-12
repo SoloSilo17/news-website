@@ -86,40 +86,49 @@
 
             // Function to fetch articles by category
             const fetchArticlesByCategory = async (category, containerId) => {
-                try {
-                    const response = await fetch(`/api/articles/${category}`);
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! Status: ${response.status}`);
-                    }
+    try {
+        const response = await fetch(`/api/articles/${category}`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
 
-                    const articles = await response.json();
+        const articles = await response.json();
 
-                    // If the container for this category doesn't exist, create it
-                    let container = document.getElementById(containerId);
-                    if (!container) {
-                        const newSection = document.createElement("section");
-                        newSection.id = category;
-                        newSection.classList.add("section");
-                        newSection.innerHTML = `<h2>${category.charAt(0).toUpperCase() + category.slice(1)}</h2>
-                            <div id="${containerId}"></div>`;
-                        document.querySelector("main").appendChild(newSection);
-                        container = document.getElementById(containerId);
-                    }
+        // If the container for this category doesn't exist, create it
+        let container = document.getElementById(containerId);
+        if (!container) {
+            const newSection = document.createElement("section");
+            newSection.id = category;
+            newSection.classList.add("section");
+            newSection.innerHTML = `<h2>${category.charAt(0).toUpperCase() + category.slice(1)}</h2>
+                <div id="${containerId}"></div>`;
+            document.querySelector("main").appendChild(newSection);
+            container = document.getElementById(containerId);
+        }
 
-                    container.innerHTML = ""; // Clear existing content
-                    articles.forEach((article) => {
-                        const articleElement = document.createElement("article");
-                        articleElement.innerHTML = `
-                            <h3>${article.title}</h3>
-                            <img src="${article.image_url}" alt="${article.title}" style="max-width: 100%; height: auto;">
-                            <p>${article.content}</p>
-                        `;
-                        container.appendChild(articleElement);
-                    });
-                } catch (error) {
-                    console.error("Error fetching articles:", error);
-                }
-            };
+        container.innerHTML = ""; // Clear existing content
+
+        // Render each article with full details
+        articles.forEach((article) => {
+            const articleElement = document.createElement("article");
+            articleElement.classList.add("article");
+            articleElement.innerHTML = `
+                <div class="article-content">
+                    <h3>${article.title}</h3>
+                    <img src="${article.image_url}" alt="${article.title}" class="article-image">
+                    <p><strong>Resumen:</strong> ${article.summary}</p>
+                    <p><strong>Categoría:</strong> ${article.category}</p>
+                    <p><em>Publicado el: ${new Date(article.publish_date).toLocaleDateString()}</em></p>
+                    <p>${article.content}</p>
+                </div>
+            `;
+            container.appendChild(articleElement);
+        });
+    } catch (error) {
+        console.error("Error fetching articles:", error);
+    }
+};
+
 
             // Add navigation link dynamically
             const addNavigationLink = (category) => {

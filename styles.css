@@ -79,23 +79,36 @@ nav a:hover {
     overflow: hidden;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    margin: 10px; /* Extra space around articles */
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    margin-bottom: 20px; /* Add spacing between articles */
 }
 
 .article:hover {
     transform: scale(1.02);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    z-index: 1; /* Prevent overlap */
 }
 
 .article img {
     width: 100%;
     height: auto;
     display: block;
-    border-bottom: 4px solid #cc0000;
+    border-bottom: 4px solid #cc0000; /* Optional accent color */
+}
+
+.article h3 {
+    font-size: 1.5em;
+    margin: 15px;
+    color: #cc0000; /* Title color */
+}
+
+.article p {
+    font-size: 1em;
+    margin: 10px 15px;
+    line-height: 1.6;
+    color: #555;
+}
+
+.article-content {
+    padding: 15px;
 }
 
 .article h2 {
