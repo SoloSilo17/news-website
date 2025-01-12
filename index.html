@@ -19,7 +19,9 @@
     <main>
         <section id="primera_pagina">
             <h2>Artículos Destacados</h2>
-            <!-- Articles will be dynamically inserted here -->
+            <div id="articles-container">
+                <!-- Articles will be dynamically inserted here -->
+            </div>
         </section>
     </main>
 
@@ -30,9 +32,7 @@
         <a href="deportes">Deportes</a>
         <a href="cultura">Cultura</a>
     </nav>
-    <div class="container">
-        <!-- Articles will load dynamically here -->
-    </div>
+
     <footer>
         <p>&copy; 2025 Noticias en Español. Todos los derechos reservados.</p>
     </footer>
@@ -41,29 +41,34 @@
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
             try {
-                const apiUrl = 'https://news-website-production.up.railway.app'; // Update with your API URL
-                const response = await fetch(`${apiUrl}/api/articles/front-page`); // Updated endpoint for front-page articles
+                const apiUrl = 'https://news-website-production.up.railway.app'; // Your API URL
+                const response = await fetch(`${apiUrl}/api/articles`); // Fetch articles from the API
                 const articles = await response.json(); // Parse the JSON response
-                const container = document.querySelector('.container'); // Get the container element
+                const container = document.getElementById('articles-container'); // Get the container element
 
                 container.innerHTML = ''; // Clear any placeholder content
 
                 // Loop through each article and create HTML elements
                 articles.forEach(article => {
-                    const section = document.createElement('section');
-                    section.classList.add('article');
-                    section.innerHTML = `
-                        <h2>${article.title}</h2>
-                        <p><small>Publicado el ${new Date(article.publish_date).toLocaleDateString()}</small></p>
-                        <p>${article.summary}</p>
-                        <a href="#">Leer más...</a>
+                    const articleElement = document.createElement('article');
+                    articleElement.classList.add('article');
+                    articleElement.innerHTML = `
+                        <h3>${article.title}</h3>
+                        <img src="${article.image_url || ''}" alt="${article.title}" style="max-width: 100%; height: auto;">
+                        <p><strong>Resumen:</strong> ${article.summary}</p>
+                        <p><strong>Categoría:</strong> ${article.category}</p>
+                        <p><em>Publicado el: ${new Date(article.publish_date).toLocaleDateString()}</em></p>
+                        <p>${article.content}</p>
                     `;
-                    container.appendChild(section); // Add the article section to the container
+                    container.appendChild(articleElement); // Append the article to the container
                 });
             } catch (error) {
                 console.error('Error fetching articles:', error);
+                const container = document.getElementById('articles-container');
+                container.innerHTML = '<p>Error al cargar los artículos. Por favor, inténtelo más tarde.</p>';
             }
         });
     </script>
 </body>
 </html>
+
