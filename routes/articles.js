@@ -9,6 +9,26 @@ router.post('/', async (req, res) => {
 
     const { title, summary, content, category, image_url, publish_date, front_page } = req.body;
 
+    router.post('/', async (req, res) => {
+        const { title, summary, content, category, image_url, publish_date, front_page } = req.body;
+        try {
+            const newArticle = new Article({
+                title,
+                summary,
+                content,
+                category,
+                image_url,
+                publish_date,
+                front_page: front_page || false,
+            });
+            await newArticle.save();
+            res.status(201).json(newArticle);
+        } catch (err) {
+            res.status(500).json({ error: 'Failed to create article', details: err.message });
+        }
+    });    
+
+
     // Validation for required fields
     if (!title || !content) {
         return res.status(400).json({ error: 'Title and content are required!' });
