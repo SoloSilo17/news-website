@@ -77,5 +77,23 @@ router.get('/front-page', async (req, res) => {
     }
 });
 
+
+
+router.put('/:id', async (req, res) => {
+    try {
+        const updatedArticle = await Article.findByIdAndUpdate(
+            req.params.id,
+            req.body,
+            { new: true } // Returns the updated document
+        );
+        res.status(200).json(updatedArticle);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to update article', details: error.message });
+    }
+});
+
+
+
+
 // Export the router
 module.exports = router;

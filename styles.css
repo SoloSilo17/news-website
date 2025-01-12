@@ -115,3 +115,39 @@ footer {
     margin-bottom: 10px;
 }
 
+body {
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.6;
+    background-color: #f9f9f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #004d99;
+    color: #fff;
+    padding: 20px 10px;
+    text-align: center;
+}
+
+h1, h2 {
+    font-weight: 700;
+}
+
+.article {
+    background: #fff;
+    margin: 20px auto;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    max-width: 800px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.article img {
+    max-width: 100%;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
