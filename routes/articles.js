@@ -87,9 +87,12 @@ router.get("/", (req, res) => {
 
 // GET: Retrieve Articles by Category
 router.get("/:category", (req, res) => {
-  const category = req.params.category;
-  const filteredArticles = articles.filter((article) => article.category.toLowerCase() === category.toLowerCase());
-  res.json(filteredArticles);
-});
+    const category = req.params.category.toLowerCase();
+    const filteredArticles = articles.filter(
+      (article) => article.category.toLowerCase() === category
+    );
+    res.json(filteredArticles);
+  });
+  
 
 module.exports = router;

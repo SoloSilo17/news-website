@@ -93,9 +93,20 @@
                     }
 
                     const articles = await response.json();
-                    const container = document.getElementById(containerId);
-                    container.innerHTML = ""; // Clear existing content
 
+                    // If the container for this category doesn't exist, create it
+                    let container = document.getElementById(containerId);
+                    if (!container) {
+                        const newSection = document.createElement("section");
+                        newSection.id = category;
+                        newSection.classList.add("section");
+                        newSection.innerHTML = `<h2>${category.charAt(0).toUpperCase() + category.slice(1)}</h2>
+                            <div id="${containerId}"></div>`;
+                        document.querySelector("main").appendChild(newSection);
+                        container = document.getElementById(containerId);
+                    }
+
+                    container.innerHTML = ""; // Clear existing content
                     articles.forEach((article) => {
                         const articleElement = document.createElement("article");
                         articleElement.innerHTML = `
@@ -109,7 +120,29 @@
                     console.error("Error fetching articles:", error);
                 }
             };
+
+            // Add navigation link dynamically
+            const addNavigationLink = (category) => {
+                const nav = document.querySelector("nav");
+                const categoryLink = document.createElement("a");
+                categoryLink.href = `#${category}`;
+                categoryLink.id = `${category}-link`;
+                categoryLink.textContent = category.charAt(0).toUpperCase() + category.slice(1);
+                nav.appendChild(categoryLink);
+
+                // Attach event listener for the new category
+                categoryLink.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    const targetSection = e.target.getAttribute("href").replace("#", "");
+                    showSection(targetSection);
+                    fetchArticlesByCategory(targetSection, `${targetSection}-articles`);
+                });
+            };
         });
     </script>
+
+<script src="server.js"></script>
+
+
 </body>
 </html>
