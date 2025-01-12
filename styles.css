@@ -4,89 +4,64 @@ body {
     margin: 0;
     padding: 0;
     line-height: 1.6;
+    background-color: #f4f4f4;
+    color: #333;
     display: flex;
     flex-direction: column;
-    min-height: 100vh; /* Ensure the body takes the full viewport height */
-    background-color: #f4f4f4; /* Light gray background for contrast */
-    color: #333;
+    min-height: 100vh;
 }
 
 /* Header styles */
 header {
-    background-color: #003366; /* Navy blue */
+    background-color: #00274d; /* Deep navy for a modern look */
     color: #fff;
-    padding: 20px 0;
+    padding: 20px;
     text-align: center;
+    border-bottom: 4px solid #cc0000; /* Accent color divider */
 }
 
 header h1 {
+    font-size: 2.5em;
     margin: 0;
+    font-weight: 700;
 }
 
 header p {
+    font-size: 1.2em;
     margin: 5px 0 0;
+    color: #ddd;
 }
 
 /* Navigation styles */
 nav {
-    background-color: #cc0000; /* Red */
+    background-color: #cc0000; /* Red for bold contrast */
+    padding: 15px 0;
     display: flex;
     justify-content: center;
-    padding: 10px;
+    gap: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 nav a {
     color: #fff;
-    margin: 0 15px;
-    text-decoration: none;
+    font-size: 1.1em;
     font-weight: bold;
+    text-decoration: none;
+    padding: 5px 15px;
+    border-radius: 20px;
+    transition: background-color 0.3s ease;
 }
 
 nav a:hover {
-    text-decoration: underline;
+    background-color: #ff4d4d; /* Lighter red on hover */
 }
 
 /* Container and article styles */
 .container {
     padding: 20px;
-    flex: 1; /* Allow the content to grow and push the footer to the bottom */
-}
-
-.article {
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    margin-bottom: 20px;
-    padding: 15px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.article h2 {
-    color: #cc0000; /* Red for titles */
-}
-
-.article p {
-    margin: 10px 0;
-}
-
-.article a {
-    color: #003366; /* Navy blue for links */
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.article a:hover {
-    text-decoration: underline;
-}
-
-/* Footer styles */
-footer {
-    background-color: #003366; /* Navy blue */
-    color: #fff;
-    text-align: center;
-    padding: 10px 0;
-    margin-top: auto; /* Push the footer to the bottom when content is short */
-    font-size: 0.9em;
+    flex: 1;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 #primera_pagina {
@@ -97,57 +72,79 @@ footer {
 }
 
 .article {
-    border: 1px solid #ddd;
-    padding: 15px;
-    border-radius: 5px;
-    background-color: #f9f9f9;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.article:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.article img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-bottom: 4px solid #cc0000;
 }
 
 .article h2 {
-    font-size: 1.5em;
-    margin-bottom: 10px;
-}
-
-.article img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 5px;
-    margin-bottom: 10px;
-}
-
-body {
-    font-family: 'Roboto', sans-serif;
-    line-height: 1.6;
-    background-color: #f9f9f9;
-    color: #333;
-    margin: 0;
-    padding: 0;
-}
-
-header {
-    background-color: #004d99;
-    color: #fff;
-    padding: 20px 10px;
-    text-align: center;
-}
-
-h1, h2 {
+    font-size: 1.8em;
+    color: #cc0000;
+    margin: 15px;
     font-weight: 700;
 }
 
-.article {
-    background: #fff;
-    margin: 20px auto;
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    max-width: 800px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+.article p {
+    font-size: 1em;
+    color: #555;
+    margin: 10px 15px;
+    line-height: 1.6;
 }
 
-.article img {
-    max-width: 100%;
+.article a {
+    display: inline-block;
+    color: #004d99;
+    font-weight: bold;
+    text-decoration: none;
+    margin: 15px;
+    border: 2px solid #004d99;
+    padding: 5px 10px;
     border-radius: 5px;
-    margin-bottom: 10px;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+.article a:hover {
+    background-color: #004d99;
+    color: #fff;
+}
+
+/* Footer styles */
+footer {
+    background-color: #00274d;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    font-size: 0.9em;
+    margin-top: auto;
+    border-top: 4px solid #cc0000; /* Accent divider */
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    nav {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .article h2 {
+        font-size: 1.5em;
+    }
+
+    .article p {
+        font-size: 0.95em;
+    }
+}

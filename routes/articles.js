@@ -2,9 +2,6 @@ const express = require('express');
 const router = express.Router();
 const Article = require('../models/Article'); // Import the Article model
 
-const multer = require('multer');
-const path = require('path');
-const jwt = require('jsonwebtoken'); // For authentication middleware
 
 // POST: Create an article
 router.post('/', async (req, res) => {
@@ -109,16 +106,6 @@ router.delete('/:id', async (req, res) => {
     }
 });
 
-// Configure Multer for File Storage
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'public/uploads'); // Path to save images
-    },
-    filename: (req, file, cb) => {
-        cb(null, `${Date.now()}-${file.originalname}`); // Create unique filenames
-    }
-});
-const upload = multer({ storage });
 
 // Authentication Middleware
 const verifyToken = (req, res, next) => {
@@ -134,15 +121,6 @@ const verifyToken = (req, res, next) => {
     }
 };
 
-// Secure Upload Endpoint
-router.post('/upload', verifyToken, upload.single('image'), (req, res) => {
-    if (!req.file) {
-        return res.status(400).json({ error: 'No file uploaded' });
-    }
-
-    const imageUrl = `/uploads/${req.file.filename}`; // Construct image URL
-    res.status(200).json({ message: 'Image uploaded successfully', imageUrl });
-});
 
 
 
