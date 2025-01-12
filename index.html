@@ -29,10 +29,8 @@
             <div id="articles-container">
                 <!-- Articles will be dynamically inserted here -->
             </div>
-            
         </section>
     </main>
-
 
     <footer>
         <p>&copy; 2025 Noticias en Español. Todos los derechos reservados.</p>
@@ -41,29 +39,17 @@
     <!-- JavaScript to Fetch and Display Articles -->
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
+            const apiUrl = '/api'; // Use relative path to leverage Netlify proxy
+            const container = document.getElementById('articles-container');
+
             try {
-                const apiUrl = '/api'; // Your API URL
-                const response = await fetch(`${apiUrl}/articles`); // Fetch articles from the API
-                const articles = await response.json(); // Parse the JSON response
-                const container = document.getElementById('articles-container'); // Get the container element
+                // Fetch articles from the API
+                const response = await fetch(`${apiUrl}/articles`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
 
-                // Post Article Example
-                const postResponse = await fetch(`${apiUrl}/articles`, {
-                 method: "POST",
-                body: formData,
-                }); 
- 
-                articles.forEach(article => {
-                 const articleElement = document.createElement("article");
-                 articleElement.classList.add("article");
-                 articleElement.innerHTML = `
-                 <h3>${article.title}</h3>
-                 <img src="${article.image_url}" alt="${article.title}" style="max-width: 100%; height: auto;">
-                 <p>${article.content}</p>
-                    `;
-                 container.appendChild(articleElement);
-                });
-
+                const articles = await response.json();
 
                 container.innerHTML = ''; // Clear any placeholder content
 
@@ -71,10 +57,9 @@
                 articles.forEach(article => {
                     const articleElement = document.createElement('article');
                     articleElement.classList.add('article');
-                    articleElement.setAttribute('data-id', article._id);
                     articleElement.innerHTML = `
                         <h3>${article.title}</h3>
-                        <img src="${article.image_url || ''}" alt="${article.title}" style="max-width: 100%; height: auto;">
+                        <img src="${article.image_url || ''}" alt="${article.title}" style="max-width: 700px; height: auto; margin-bottom: 10px;">
                         <p><strong>Resumen:</strong> ${article.summary}</p>
                         <p><strong>Categoría:</strong> ${article.category}</p>
                         <p><em>Publicado el: ${new Date(article.publish_date).toLocaleDateString()}</em></p>
@@ -84,16 +69,35 @@
                 });
             } catch (error) {
                 console.error('Error fetching articles:', error);
-                const container = document.getElementById('articles-container');
                 container.innerHTML = '<p>Error al cargar los artículos. Por favor, inténtelo más tarde.</p>';
             }
         });
+
+        // Example for posting an article (if needed)
+        async function postArticle() {
+            try {
+                const formData = new FormData();
+                formData.append('title', 'Nuevo artículo');
+                formData.append('content', 'Este es el contenido del artículo.');
+                formData.append('image', document.getElementById('imageInput').files[0]);
+
+                const response = await fetch(`${apiUrl}/articles`, {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                console.log('Article posted successfully:', data);
+            } catch (error) {
+                console.error('Error posting article:', error);
+            }
+        }
     </script>
 
-
-<script src="app.js"></script>
-
-
+    <script src="app.js"></script>
 </body>
 </html>
-
