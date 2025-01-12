@@ -19,8 +19,21 @@ const storage = multer.diskStorage({
   },
 });
 
-// Multer Middleware
-const upload = multer({ storage });
+// Add MIME Type Validation
+const upload = multer({
+  storage,
+  fileFilter: (req, file, cb) => {
+    const fileTypes = /jpeg|jpg|png|gif/;
+    const extname = fileTypes.test(path.extname(file.originalname).toLowerCase());
+    const mimeType = fileTypes.test(file.mimetype);
+
+    if (mimeType && extname) {
+      return cb(null, true);
+    } else {
+      cb(new Error("Error: Unsupported file type!"));
+    }
+  },
+});
 
 // Simulated Database for Articles
 const articles = []; // Replace with your database logic if needed
@@ -64,8 +77,8 @@ router.post(
         article: newArticle,
       });
     } catch (error) {
-      console.error("Error processing request:", error);
-      res.status(500).json({ error: "Internal Server Error" });
+      console.error("Error processing request:", error.message);
+      res.status(500).json({ error: error.message || "Internal Server Error" });
     }
   }
 );
