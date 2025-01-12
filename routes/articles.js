@@ -2,6 +2,10 @@ const express = require('express');
 const router = express.Router();
 const Article = require('../models/Article'); // Import the Article model
 
+const multer = require('multer');
+const path = require('path');
+const jwt = require('jsonwebtoken'); // For authentication middleware
+
 // POST: Create an article
 router.post('/', async (req, res) => {
     console.log('POST /api/articles called');
@@ -104,6 +108,42 @@ router.delete('/:id', async (req, res) => {
         res.status(500).json({ error: 'Failed to delete article', details: error.message });
     }
 });
+
+// Configure Multer for File Storage
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'public/uploads'); // Path to save images
+    },
+    filename: (req, file, cb) => {
+        cb(null, `${Date.now()}-${file.originalname}`); // Create unique filenames
+    }
+});
+const upload = multer({ storage });
+
+// Authentication Middleware
+const verifyToken = (req, res, next) => {
+    const token = req.headers['authorization'];
+    if (!token) return res.status(403).json({ error: 'No token provided' });
+
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET); // Verify the token
+        req.user = decoded;
+        next(); // Proceed if valid
+    } catch (err) {
+        res.status(401).json({ error: 'Unauthorized: Invalid token' });
+    }
+};
+
+// Secure Upload Endpoint
+router.post('/upload', verifyToken, upload.single('image'), (req, res) => {
+    if (!req.file) {
+        return res.status(400).json({ error: 'No file uploaded' });
+    }
+
+    const imageUrl = `/uploads/${req.file.filename}`; // Construct image URL
+    res.status(200).json({ message: 'Image uploaded successfully', imageUrl });
+});
+
 
 
 
