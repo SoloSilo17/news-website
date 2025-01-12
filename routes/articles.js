@@ -92,6 +92,18 @@ router.put('/:id', async (req, res) => {
     }
 });
 
+// DELETE: Remove an article by ID
+router.delete('/:id', async (req, res) => {
+    try {
+        const deletedArticle = await Article.findByIdAndDelete(req.params.id);
+        if (!deletedArticle) {
+            return res.status(404).json({ error: 'Article not found' });
+        }
+        res.status(200).json({ message: 'Article deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to delete article', details: error.message });
+    }
+});
 
 
 
