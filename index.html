@@ -17,18 +17,37 @@
     </header>
 
     <nav>
-        <a href="inicio">Inicio</a>
-        <a href="nacional">Nacional</a>
-        <a href="internacional">Internacional</a>
-        <a href="deportes">Deportes</a>
-        <a href="cultura">Cultura</a>
+        <a href="#inicio" id="inicio-link">Inicio</a>
+        <a href="#nacional" id="nacional-link">Nacional</a>
+        <a href="#internacional" id="internacional-link">Internacional</a>
+        <a href="#deportes" id="deportes-link">Deportes</a>
+        <a href="#cultura" id="cultura-link">Cultura</a>
     </nav>
 
     <main>
-        <section id="primera_pagina">
-            <div id="articles-container">
-                <!-- Articles will be dynamically inserted here -->
-            </div>
+        <section id="inicio" class="section">
+            <h2>Inicio</h2>
+            <div id="inicio-articles"></div>
+        </section>
+
+        <section id="nacional" class="section" style="display: none;">
+            <h2>Nacional</h2>
+            <div id="nacional-articles"></div>
+        </section>
+
+        <section id="internacional" class="section" style="display: none;">
+            <h2>Internacional</h2>
+            <div id="internacional-articles"></div>
+        </section>
+
+        <section id="deportes" class="section" style="display: none;">
+            <h2>Deportes</h2>
+            <div id="deportes-articles"></div>
+        </section>
+
+        <section id="cultura" class="section" style="display: none;">
+            <h2>Cultura</h2>
+            <div id="cultura-articles"></div>
         </section>
     </main>
 
@@ -36,68 +55,61 @@
         <p>&copy; 2025 Noticias en Español. Todos los derechos reservados.</p>
     </footer>
 
-    <!-- JavaScript to Fetch and Display Articles -->
     <script>
-        document.addEventListener('DOMContentLoaded', async () => {
-            const apiUrl = '/api'; // Use relative path to leverage Netlify proxy
-            const container = document.getElementById('articles-container');
+        document.addEventListener("DOMContentLoaded", () => {
+            const sections = document.querySelectorAll(".section");
+            const links = document.querySelectorAll("nav a");
 
-            try {
-                // Fetch articles from the API
-                const response = await fetch(`${apiUrl}/articles`);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-
-                const articles = await response.json();
-
-                container.innerHTML = ''; // Clear any placeholder content
-
-                // Loop through each article and create HTML elements
-                articles.forEach(article => {
-                    const articleElement = document.createElement('article');
-                    articleElement.classList.add('article');
-                    articleElement.innerHTML = `
-                        <h3>${article.title}</h3>
-                        <img src="${article.image_url || ''}" alt="${article.title}" style="max-width: 700px; height: auto; margin-bottom: 10px;">
-                        <p><strong>Resumen:</strong> ${article.summary}</p>
-                        <p><strong>Categoría:</strong> ${article.category}</p>
-                        <p><em>Publicado el: ${new Date(article.publish_date).toLocaleDateString()}</em></p>
-                        <p>${article.content}</p>
-                    `;
-                    container.appendChild(articleElement); // Append the article to the container
+            // Function to show the selected section
+            const showSection = (sectionId) => {
+                sections.forEach((section) => {
+                    section.style.display = section.id === sectionId ? "block" : "none";
                 });
-            } catch (error) {
-                console.error('Error fetching articles:', error);
-                container.innerHTML = '<p>Error al cargar los artículos. Por favor, inténtelo más tarde.</p>';
-            }
+            };
+
+            // Attach click event listeners to navigation links
+            links.forEach((link) => {
+                link.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    const targetSection = e.target.getAttribute("href").replace("#", "");
+                    showSection(targetSection);
+
+                    // Fetch articles for the selected section if not "Inicio"
+                    if (targetSection !== "inicio") {
+                        fetchArticlesByCategory(targetSection, `${targetSection}-articles`);
+                    }
+                });
+            });
+
+            // Load "Inicio" by default
+            showSection("inicio");
+
+            // Function to fetch articles by category
+            const fetchArticlesByCategory = async (category, containerId) => {
+                try {
+                    const response = await fetch(`/api/articles/${category}`);
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+
+                    const articles = await response.json();
+                    const container = document.getElementById(containerId);
+                    container.innerHTML = ""; // Clear existing content
+
+                    articles.forEach((article) => {
+                        const articleElement = document.createElement("article");
+                        articleElement.innerHTML = `
+                            <h3>${article.title}</h3>
+                            <img src="${article.image_url}" alt="${article.title}" style="max-width: 100%; height: auto;">
+                            <p>${article.content}</p>
+                        `;
+                        container.appendChild(articleElement);
+                    });
+                } catch (error) {
+                    console.error("Error fetching articles:", error);
+                }
+            };
         });
-
-        // Example for posting an article (if needed)
-        async function postArticle() {
-            try {
-                const formData = new FormData();
-                formData.append('title', 'Nuevo artículo');
-                formData.append('content', 'Este es el contenido del artículo.');
-                formData.append('image', document.getElementById('imageInput').files[0]);
-
-                const response = await fetch(`${apiUrl}/articles`, {
-                    method: 'POST',
-                    body: formData,
-                });
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-
-                const data = await response.json();
-                console.log('Article posted successfully:', data);
-            } catch (error) {
-                console.error('Error posting article:', error);
-            }
-        }
     </script>
-
-    <script src="app.js"></script>
 </body>
 </html>

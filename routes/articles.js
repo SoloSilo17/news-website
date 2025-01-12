@@ -19,7 +19,6 @@ const storage = multer.diskStorage({
   },
 });
 
-// Add MIME Type Validation
 const upload = multer({
   storage,
   fileFilter: (req, file, cb) => {
@@ -30,7 +29,7 @@ const upload = multer({
     if (mimeType && extname) {
       return cb(null, true);
     } else {
-      cb(new Error("Error: Unsupported file type! Only JPEG, PNG, and GIF are allowed."));
+      cb(new Error("Error: Unsupported file type!"));
     }
   },
 });
@@ -47,9 +46,6 @@ router.post(
   ]),
   (req, res) => {
     try {
-      console.log("Request Body:", req.body);
-      console.log("Uploaded Files:", req.files);
-
       const { title, content, category, summary, publish_date } = req.body;
 
       if (!title || !content) {
@@ -86,8 +82,14 @@ router.post(
 
 // GET: Retrieve All Articles
 router.get("/", (req, res) => {
-  console.log("GET /api/articles called");
   res.json(articles);
+});
+
+// GET: Retrieve Articles by Category
+router.get("/:category", (req, res) => {
+  const category = req.params.category;
+  const filteredArticles = articles.filter((article) => article.category.toLowerCase() === category.toLowerCase());
+  res.json(filteredArticles);
 });
 
 module.exports = router;
