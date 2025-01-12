@@ -53,5 +53,22 @@ router.post("/", upload.single("image"), (req, res) => {
   }
 });
 
+router.get("/", (req, res) => {
+    console.log("GET /api/articles called");
+    res.json(articles); // Ensure this returns the articles array
+  });  
+
+  // Endpoint to Get All Articles
+router.get("/", (req, res) => {
+    try {
+      res.json(articles); // Send the articles array to the frontend
+    } catch (error) {
+      console.error("Error fetching articles:", error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  });
+  
+
+
 // Export Router
 module.exports = router;
