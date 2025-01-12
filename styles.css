@@ -66,9 +66,11 @@ nav a:hover {
 
 #primera_pagina {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px; /* Increased gap between articles */
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); /* Reduced min width by ~20% */
+    gap: 30px; /* Space between articles */
     padding: 20px;
+    max-width: 1000px; /* Limit the total width of the grid */
+    margin: 0 auto; /* Center the grid */
 }
 
 .article {
@@ -77,7 +79,7 @@ nav a:hover {
     overflow: hidden;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    margin: 10px; /* Added margin to create more spacing */
+    margin: 10px; /* Extra space around articles */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -86,7 +88,7 @@ nav a:hover {
 .article:hover {
     transform: scale(1.02);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    z-index: 1; /* Ensure hovered article is on top and doesn't overlap */
+    z-index: 1; /* Prevent overlap */
 }
 
 .article img {
