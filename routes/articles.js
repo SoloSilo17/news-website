@@ -30,7 +30,7 @@ const upload = multer({
     if (mimeType && extname) {
       return cb(null, true);
     } else {
-      cb(new Error("Error: Unsupported file type!"));
+      cb(new Error("Error: Unsupported file type! Only JPEG, PNG, and GIF are allowed."));
     }
   },
 });
@@ -56,6 +56,7 @@ router.post(
         return res.status(400).json({ error: "Title and content are required." });
       }
 
+      const serverUrl = req.protocol + "://" + req.get("host");
       const newArticle = {
         id: articles.length + 1,
         title,
@@ -64,11 +65,11 @@ router.post(
         summary: summary || "",
         publish_date: publish_date || new Date().toISOString(),
         image_url: req.files["image"]
-          ? `/uploads/${req.files["image"][0].filename}`
-          : null, // Main image URL
+          ? `${serverUrl}/uploads/${req.files["image"][0].filename}`
+          : null, // Full URL for main image
         additional_images: req.files["images"]
-          ? req.files["images"].map((file) => `/uploads/${file.filename}`)
-          : [], // Additional image URLs
+          ? req.files["images"].map((file) => `${serverUrl}/uploads/${file.filename}`)
+          : [], // Full URLs for additional images
       };
 
       articles.push(newArticle);
