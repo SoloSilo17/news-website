@@ -29,9 +29,25 @@
             <div id="articles-container">
                 <!-- Articles will be dynamically inserted here -->
             </div>
+            
+            <!-- Article Submission Form -->
+            <div id="article-form-container">
+                <h2>Enviar un Nuevo Artículo</h2>
+                <form action="/upload" method="POST" enctype="multipart/form-data">
+                    <label for="title">Título del Artículo:</label>
+                    <input type="text" id="title" name="title" required>
+                    
+                    <label for="content">Contenido:</label>
+                    <textarea id="content" name="content" rows="5" required></textarea>
+                    
+                    <label for="image">Subir Imagen:</label>
+                    <input type="file" id="image" name="image" accept="image/*" required>
+                    
+                    <button type="submit">Enviar</button>
+                </form>
+            </div>
         </section>
     </main>
-
 
     <footer>
         <p>&copy; 2025 Noticias en Español. Todos los derechos reservados.</p>
@@ -71,19 +87,16 @@
         });
     </script>
 
-<div id="edit-modal" style="display: none;">
-    <form id="edit-form">
-        <label>Title:</label>
-        <input type="text" id="edit-title">
-        <label>Content:</label>
-        <textarea id="edit-content"></textarea>
-        <button type="button" onclick="submitEdit()">Save</button>
-    </form>
-</div>
+    <div id="edit-modal" style="display: none;">
+        <form id="edit-form">
+            <label>Title:</label>
+            <input type="text" id="edit-title">
+            <label>Content:</label>
+            <textarea id="edit-content"></textarea>
+            <button type="button" onclick="submitEdit()">Save</button>
+        </form>
+    </div>
 
-<script src="app.js"></script>
-
-
+    <script src="app.js"></script>
 </body>
 </html>
-
