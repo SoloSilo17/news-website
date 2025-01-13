@@ -9,7 +9,6 @@
     <title>Noticias en Español</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-    
 </head>
 <body>
     <header>
@@ -69,6 +68,10 @@
                 sections.forEach((section) => {
                     if (section.id === sectionId) {
                         section.style.display = "block";
+                        const containerId = `${sectionId}-articles`;
+                        if (sectionId !== "inicio") {
+                            fetchArticlesByCategory(sectionId, containerId); // Fetch articles if not "Inicio"
+                        }
                     } else {
                         section.style.display = "none";
                         const container = section.querySelector("div");
@@ -87,60 +90,56 @@
                     e.preventDefault();
                     const targetSection = e.target.getAttribute("href").replace("#", "");
                     showSection(targetSection);
-
-                    // Fetch articles for the selected section if not "Inicio"
-                    if (targetSection !== "inicio") {
-                        fetchArticlesByCategory(targetSection, `${targetSection}-articles`);
-                    }
                 });
             });
 
             // Restore the last visited section or default to "Inicio"
             const lastVisitedSection = localStorage.getItem("lastVisitedSection") || "inicio";
+            console.log("Restoring section:", lastVisitedSection); // Debugging log
             showSection(lastVisitedSection);
 
             // Function to fetch articles by category
             const fetchArticlesByCategory = async (category, containerId) => {
-    try {
-        const response = await fetch(`/api/articles/${category}`);
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
+                try {
+                    const response = await fetch(`/api/articles/${category}`);
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
 
-        const articles = await response.json();
-        const container = document.getElementById(containerId);
+                    const articles = await response.json();
+                    const container = document.getElementById(containerId);
 
-        if (!container) {
-            console.error(`Error: Container with ID "${containerId}" not found.`);
-            return;
-        }
+                    if (!container) {
+                        console.error(`Error: Container with ID "${containerId}" not found.`);
+                        return;
+                    }
 
-        container.innerHTML = ""; // Clear existing content before displaying new articles
+                    container.innerHTML = ""; // Clear existing content before displaying new articles
 
-        articles.forEach((article) => {
-            const articleElement = document.createElement("article");
-            articleElement.classList.add("article");
-            articleElement.innerHTML = `
-                <div class="article-content">
-                    <h3>${article.title}</h3>
-                    <p><strong>Resumen:</strong> ${article.summary}</p>
-                    <p><strong>Categoría:</strong> ${article.category}</p>
-                    <p><em>Publicado el: ${new Date(article.publish_date).toLocaleDateString()}</em></p>
-                    <p>${article.content}</p>
-                </div>
-                <img src="${article.image_url}" alt="${article.title}" class="article-image">
-            `;
+                    articles.forEach((article) => {
+                        const articleElement = document.createElement("article");
+                        articleElement.classList.add("article");
+                        articleElement.innerHTML = `
+                            <div class="article-content">
+                                <h3>${article.title}</h3>
+                                <p><strong>Resumen:</strong> ${article.summary}</p>
+                                <p><strong>Categoría:</strong> ${article.category}</p>
+                                <p><em>Publicado el: ${new Date(article.publish_date).toLocaleDateString()}</em></p>
+                                <p>${article.content}</p>
+                            </div>
+                            <img src="${article.image_url}" alt="${article.title}" class="article-image">
+                        `;
 
-            articleElement.addEventListener("click", () => {
-                viewFullArticle(article);
-            });
+                        articleElement.addEventListener("click", () => {
+                            viewFullArticle(article);
+                        });
 
-            container.appendChild(articleElement);
-        });
-    } catch (error) {
-        console.error("Error fetching articles:", error);
-    }
-};
+                        container.appendChild(articleElement);
+                    });
+                } catch (error) {
+                    console.error("Error fetching articles:", error);
+                }
+            };
 
             const viewFullArticle = (article) => {
                 fullArticleView.innerHTML = `
@@ -159,6 +158,5 @@
     </script>
 
     <script src="app.js"></script>
-
 </body>
 </html>
