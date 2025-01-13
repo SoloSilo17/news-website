@@ -78,6 +78,7 @@
                     }
                 });
                 fullArticleView.classList.remove("active");
+                localStorage.setItem("lastVisitedSection", sectionId); // Save the last visited section
             };
 
             // Attach click event listeners to navigation links
@@ -94,8 +95,9 @@
                 });
             });
 
-            // Load "Inicio" by default
-            showSection("inicio");
+            // Restore the last visited section or default to "Inicio"
+            const lastVisitedSection = localStorage.getItem("lastVisitedSection") || "inicio";
+            showSection(lastVisitedSection);
 
             // Function to fetch articles by category
             const fetchArticlesByCategory = async (category, containerId) => {

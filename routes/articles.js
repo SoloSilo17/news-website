@@ -94,5 +94,6 @@ router.get("/:category", (req, res) => {
     res.json(filteredArticles);
   });
   
+  
 
 module.exports = router;
