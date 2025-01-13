@@ -62,6 +62,7 @@
             const sections = document.querySelectorAll(".section");
             const links = document.querySelectorAll("nav a");
             const fullArticleView = document.getElementById("full-article-view");
+            let lastSection = "inicio"; // Track the last section viewed
 
             // Function to show the selected section
             const showSection = (sectionId) => {
@@ -82,6 +83,7 @@
                 });
                 fullArticleView.classList.remove("active");
                 localStorage.setItem("lastVisitedSection", sectionId); // Save the last visited section
+                lastSection = sectionId; // Update the last section viewed
             };
 
             // Attach click event listeners to navigation links
@@ -143,7 +145,7 @@
 
             const viewFullArticle = (article) => {
                 fullArticleView.innerHTML = `
-                    <a href="#inicio" class="back-button">&larr; Volver</a>
+                    <a href="#" class="back-button">&larr; Volver</a>
                     <h2>${article.title}</h2>
                     <img src="${article.image_url}" alt="${article.title}" style="max-width: 100%; height: auto; margin-bottom: 20px;">
                     <p><strong>Resumen:</strong> ${article.summary}</p>
@@ -153,6 +155,13 @@
                 `;
                 fullArticleView.classList.add("active");
                 sections.forEach((section) => section.style.display = "none");
+
+                // Add event listener to the back button
+                const backButton = fullArticleView.querySelector(".back-button");
+                backButton.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    showSection(lastSection); // Return to the last section viewed
+                });
             };
         });
     </script>
