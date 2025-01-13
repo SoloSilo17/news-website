@@ -50,7 +50,7 @@
             <div id="immigracion-articles"></div>
         </section>
         
-        <section id="full-article-view" class="full-article"></section>
+        <section id="full-article-view" class="full-article" style="display: none;"></section>
     </main>
 
     <footer>
@@ -62,45 +62,9 @@
             const sections = document.querySelectorAll(".section");
             const links = document.querySelectorAll("nav a");
             const fullArticleView = document.getElementById("full-article-view");
-            let lastSection = "inicio"; // Track the last section viewed
+            let lastSection = "inicio";
 
-            // Function to show the selected section
-            const showSection = (sectionId) => {
-                sections.forEach((section) => {
-                    if (section.id === sectionId) {
-                        section.style.display = "block";
-                        const containerId = `${sectionId}-articles`;
-                        if (sectionId !== "inicio") {
-                            fetchArticlesByCategory(sectionId, containerId); // Fetch articles if not "Inicio"
-                        }
-                    } else {
-                        section.style.display = "none";
-                        const container = section.querySelector("div");
-                        if (container) {
-                            container.innerHTML = ""; // Clear content of non-active sections
-                        }
-                    }
-                });
-                fullArticleView.classList.remove("active");
-                localStorage.setItem("lastVisitedSection", sectionId); // Save the last visited section
-                lastSection = sectionId; // Update the last section viewed
-            };
-
-            // Attach click event listeners to navigation links
-            links.forEach((link) => {
-                link.addEventListener("click", (e) => {
-                    e.preventDefault();
-                    const targetSection = e.target.getAttribute("href").replace("#", "");
-                    showSection(targetSection);
-                });
-            });
-
-            // Restore the last visited section or default to "Inicio"
-            const lastVisitedSection = localStorage.getItem("lastVisitedSection") || "inicio";
-            console.log("Restoring section:", lastVisitedSection); // Debugging log
-            showSection(lastVisitedSection);
-
-            // Function to fetch articles by category
+            // Fetch articles by category
             const fetchArticlesByCategory = async (category, containerId) => {
                 try {
                     const response = await fetch(`/api/articles/${category}`);
@@ -116,26 +80,19 @@
                         return;
                     }
 
-                    container.innerHTML = ""; // Clear existing content before displaying new articles
-
+                    container.innerHTML = ""; // Clear existing content
                     articles.forEach((article) => {
                         const articleElement = document.createElement("article");
                         articleElement.classList.add("article");
                         articleElement.innerHTML = `
-                            <div class="article-content">
-                                <h3>${article.title}</h3>
-                                <p><strong>Resumen:</strong> ${article.summary}</p>
-                                <p><strong>Categoría:</strong> ${article.category}</p>
-                                <p><em>Publicado el: ${new Date(article.publish_date).toLocaleDateString()}</em></p>
-                                <p>${article.content}</p>
-                            </div>
-                            <img src="${article.image_url}" alt="${article.title}" class="article-image">
+                            <h3>${article.title}</h3>
+                            <p><strong>Resumen:</strong> ${article.summary}</p>
+                            <p>${article.content}</p>
+                            <img src="${article.image_url}" alt="${article.title}">
                         `;
-
                         articleElement.addEventListener("click", () => {
                             viewFullArticle(article);
                         });
-
                         container.appendChild(articleElement);
                     });
                 } catch (error) {
@@ -143,29 +100,49 @@
                 }
             };
 
+            // Show a specific section
+            const showSection = (sectionId) => {
+                sections.forEach((section) => {
+                    section.style.display = section.id === sectionId ? "block" : "none";
+                });
+
+                if (sectionId !== "inicio") {
+                    fetchArticlesByCategory(sectionId, `${sectionId}-articles`);
+                }
+                lastSection = sectionId;
+                localStorage.setItem("lastVisitedSection", sectionId);
+            };
+
             const viewFullArticle = (article) => {
                 fullArticleView.innerHTML = `
                     <a href="#" class="back-button">&larr; Volver</a>
                     <h2>${article.title}</h2>
-                    <img src="${article.image_url}" alt="${article.title}" style="max-width: 100%; height: auto; margin-bottom: 20px;">
+                    <img src="${article.image_url}" alt="${article.title}" style="max-width: 100%; height: auto;">
                     <p><strong>Resumen:</strong> ${article.summary}</p>
-                    <p><strong>Categoría:</strong> ${article.category}</p>
-                    <p><em>Publicado el: ${new Date(article.publish_date).toLocaleDateString()}</em></p>
                     <p>${article.content}</p>
                 `;
-                fullArticleView.classList.add("active");
+                fullArticleView.style.display = "block";
                 sections.forEach((section) => section.style.display = "none");
 
-                // Add event listener to the back button
                 const backButton = fullArticleView.querySelector(".back-button");
                 backButton.addEventListener("click", (e) => {
                     e.preventDefault();
-                    showSection(lastSection); // Return to the last section viewed
+                    showSection(lastSection);
                 });
             };
+
+            // Restore last section or default to "inicio"
+            const savedSection = localStorage.getItem("lastVisitedSection") || "inicio";
+            showSection(savedSection);
+
+            links.forEach((link) => {
+                link.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    const targetSection = e.target.getAttribute("href").replace("#", "");
+                    showSection(targetSection);
+                });
+            });
         });
     </script>
-
-    <script src="app.js"></script>
 </body>
 </html>
