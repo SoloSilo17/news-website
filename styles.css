@@ -13,11 +13,11 @@ body {
 
 /* Header styles */
 header {
-    background-color: #00274d; /* Deep navy for a modern look */
+    background-color: #00274d;
     color: #fff;
     padding: 20px;
     text-align: center;
-    border-bottom: 4px solid #cc0000; /* Accent color divider */
+    border-bottom: 4px solid #cc0000;
 }
 
 header h1 {
@@ -34,7 +34,7 @@ header p {
 
 /* Navigation styles */
 nav {
-    background-color: #cc0000; /* Red for bold contrast */
+    background-color: #cc0000;
     padding: 15px 0;
     display: flex;
     justify-content: center;
@@ -53,7 +53,7 @@ nav a {
 }
 
 nav a:hover {
-    background-color: #ff4d4d; /* Lighter red on hover */
+    background-color: #ff4d4d;
 }
 
 /* Container and article styles */
@@ -66,20 +66,24 @@ nav a:hover {
 
 #primera_pagina {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); /* Reduced min width by ~20% */
-    gap: 30px; /* Space between articles */
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 30px;
     padding: 20px;
-    max-width: 700px; /* Limit the total width of the grid */
-    margin: 0 auto; /* Center the grid */
+    max-width: 700px;
+    margin: 0 auto;
 }
 
 .article {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     background-color: #fff;
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    padding: 15px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    margin-bottom: 20px; /* Add spacing between articles */
 }
 
 .article:hover {
@@ -87,59 +91,57 @@ nav a:hover {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
-.article img {
-    width: 100%;
-    height: auto;
-    display: block;
-    border-bottom: 4px solid #cc0000; /* Optional accent color */
-}
-
-.article h3 {
-    font-size: 1.5em;
-    margin: 15px;
-    color: #cc0000; /* Title color */
-}
-
-.article p {
-    font-size: 1em;
-    margin: 10px 15px;
-    line-height: 1.6;
-    color: #555;
-}
-
 .article-content {
-    padding: 15px;
+    flex: 1;
+    margin-right: 15px;
 }
 
-.article h2 {
-    font-size: 1.8em;
+.article-image {
+    width: 150px;
+    height: auto;
+    border-radius: 8px;
+}
+
+.article-content h3 {
+    font-size: 1.5em;
+    margin: 0 0 10px;
     color: #cc0000;
-    margin: 15px;
-    font-weight: 700;
 }
 
-.article p {
-    font-size: 1em;
+.article-content p {
+    margin: 5px 0;
     color: #555;
-    margin: 10px 15px;
     line-height: 1.6;
 }
 
-.article a {
-    display: inline-block;
-    color: #004d99;
-    font-weight: bold;
-    text-decoration: none;
-    margin: 15px;
-    border: 2px solid #004d99;
-    padding: 5px 10px;
-    border-radius: 5px;
-    transition: background-color 0.3s ease, color 0.3s ease;
+.article-content p em {
+    font-style: italic;
 }
 
-.article a:hover {
-    background-color: #004d99;
+.full-article {
+    display: none;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.full-article.active {
+    display: block;
+}
+
+.back-button {
+    display: inline-block;
+    margin-bottom: 20px;
+    background-color: #cc0000;
     color: #fff;
+    padding: 10px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.back-button:hover {
+    background-color: #a30000;
 }
 
 /* Footer styles */
@@ -150,10 +152,10 @@ footer {
     padding: 20px;
     font-size: 0.9em;
     margin-top: auto;
-    border-top: 4px solid #cc0000; /* Accent divider */
+    border-top: 4px solid #cc0000;
 }
 
-/* New Responsive Adjustments */
+/* Responsive Adjustments */
 @media (max-width: 768px) {
     nav {
         flex-direction: column;
@@ -161,28 +163,28 @@ footer {
     }
 
     .article {
-        flex: 1 1 calc(50% - 10px); /* 2 columns for medium devices */
+        flex: 1 1 calc(50% - 10px);
     }
 
-    .article h2 {
-        font-size: 1.5em;
+    .article-content h3 {
+        font-size: 1.3em;
     }
 
-    .article p {
+    .article-content p {
         font-size: 0.95em;
     }
 }
 
 @media (max-width: 480px) {
     .article {
-        flex: 1 1 100%; /* Full width for mobile devices */
+        flex: 1 1 100%;
     }
 
-    .article h2 {
+    .article-content h3 {
         font-size: 1.2em;
     }
 
-    .article p {
+    .article-content p {
         font-size: 0.9em;
     }
 }

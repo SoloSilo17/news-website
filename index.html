@@ -9,6 +9,7 @@
     <title>Noticias en Español</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    
 </head>
 <body>
     <header>
@@ -49,6 +50,8 @@
             <h2>Cultura</h2>
             <div id="cultura-articles"></div>
         </section>
+
+        <section id="full-article-view" class="full-article"></section>
     </main>
 
     <footer>
@@ -59,12 +62,22 @@
         document.addEventListener("DOMContentLoaded", () => {
             const sections = document.querySelectorAll(".section");
             const links = document.querySelectorAll("nav a");
+            const fullArticleView = document.getElementById("full-article-view");
 
             // Function to show the selected section
             const showSection = (sectionId) => {
                 sections.forEach((section) => {
-                    section.style.display = section.id === sectionId ? "block" : "none";
+                    if (section.id === sectionId) {
+                        section.style.display = "block";
+                    } else {
+                        section.style.display = "none";
+                        const container = section.querySelector("div");
+                        if (container) {
+                            container.innerHTML = ""; // Clear content of non-active sections
+                        }
+                    }
                 });
+                fullArticleView.classList.remove("active");
             };
 
             // Attach click event listeners to navigation links
@@ -86,72 +99,58 @@
 
             // Function to fetch articles by category
             const fetchArticlesByCategory = async (category, containerId) => {
-    try {
-        const response = await fetch(`/api/articles/${category}`);
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
+                try {
+                    const response = await fetch(`/api/articles/${category}`);
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
 
-        const articles = await response.json();
+                    const articles = await response.json();
+                    const container = document.getElementById(containerId);
+                    container.innerHTML = ""; // Clear existing content before displaying new articles
 
-        // If the container for this category doesn't exist, create it
-        let container = document.getElementById(containerId);
-        if (!container) {
-            const newSection = document.createElement("section");
-            newSection.id = category;
-            newSection.classList.add("section");
-            newSection.innerHTML = `<h2>${category.charAt(0).toUpperCase() + category.slice(1)}</h2>
-                <div id="${containerId}"></div>`;
-            document.querySelector("main").appendChild(newSection);
-            container = document.getElementById(containerId);
-        }
+                    articles.forEach((article) => {
+                        const articleElement = document.createElement("article");
+                        articleElement.classList.add("article");
+                        articleElement.innerHTML = `
+                            <div class="article-content">
+                                <h3>${article.title}</h3>
+                                <p><strong>Resumen:</strong> ${article.summary}</p>
+                                <p><strong>Categoría:</strong> ${article.category}</p>
+                                <p><em>Publicado el: ${new Date(article.publish_date).toLocaleDateString()}</em></p>
+                                <p>${article.content}</p>
+                            </div>
+                            <img src="${article.image_url}" alt="${article.title}" class="article-image">
+                        `;
 
-        container.innerHTML = ""; // Clear existing content
+                        articleElement.addEventListener("click", () => {
+                            viewFullArticle(article);
+                        });
 
-        // Render each article with full details
-        articles.forEach((article) => {
-            const articleElement = document.createElement("article");
-            articleElement.classList.add("article");
-            articleElement.innerHTML = `
-                <div class="article-content">
-                    <h3>${article.title}</h3>
-                    <img src="${article.image_url}" alt="${article.title}" class="article-image">
+                        container.appendChild(articleElement);
+                    });
+                } catch (error) {
+                    console.error("Error fetching articles:", error);
+                }
+            };
+
+            const viewFullArticle = (article) => {
+                fullArticleView.innerHTML = `
+                    <a href="#inicio" class="back-button">&larr; Volver</a>
+                    <h2>${article.title}</h2>
+                    <img src="${article.image_url}" alt="${article.title}" style="max-width: 100%; height: auto; margin-bottom: 20px;">
                     <p><strong>Resumen:</strong> ${article.summary}</p>
                     <p><strong>Categoría:</strong> ${article.category}</p>
                     <p><em>Publicado el: ${new Date(article.publish_date).toLocaleDateString()}</em></p>
                     <p>${article.content}</p>
-                </div>
-            `;
-            container.appendChild(articleElement);
-        });
-    } catch (error) {
-        console.error("Error fetching articles:", error);
-    }
-};
-
-
-            // Add navigation link dynamically
-            const addNavigationLink = (category) => {
-                const nav = document.querySelector("nav");
-                const categoryLink = document.createElement("a");
-                categoryLink.href = `#${category}`;
-                categoryLink.id = `${category}-link`;
-                categoryLink.textContent = category.charAt(0).toUpperCase() + category.slice(1);
-                nav.appendChild(categoryLink);
-
-                // Attach event listener for the new category
-                categoryLink.addEventListener("click", (e) => {
-                    e.preventDefault();
-                    const targetSection = e.target.getAttribute("href").replace("#", "");
-                    showSection(targetSection);
-                    fetchArticlesByCategory(targetSection, `${targetSection}-articles`);
-                });
+                `;
+                fullArticleView.classList.add("active");
+                sections.forEach((section) => section.style.display = "none");
             };
         });
     </script>
 
-<script src="app.js"></script>
-
+    <script src="app.js"></script>
 
 </body>
 </html>
