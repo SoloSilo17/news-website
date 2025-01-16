@@ -97,7 +97,7 @@ nav a:hover {
 }
 
 .article-image {
-    width: 120px; /* Smaller width for images */
+    width: 90px; /* Smaller width for images */
     height: auto; /* Maintain aspect ratio */
     border-radius: 8px;
     display: block;
