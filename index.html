@@ -83,10 +83,12 @@
                         const articleElement = document.createElement("article");
                         articleElement.classList.add("article");
                         articleElement.innerHTML = `
+                            <div class="article-content">
+                                <h3>${article.title}</h3>
+                                <p><strong>Resumen:</strong> ${article.summary}</p>
+                                <p>${article.content}</p>
+                            </div>
                             <img src="${article.image_url}" alt="${article.title}">
-                            <h3>${article.title}</h3>
-                            <p><strong>Resumen:</strong> ${article.summary}</p>
-                            <p>${article.content}</p>
                         `;
                         articleElement.addEventListener("click", () => {
                             viewFullArticle(article);
@@ -118,10 +120,12 @@
             const viewFullArticle = (article) => {
                 fullArticleView.innerHTML = `
                     <a href="#${lastSection}" class="back-button">&larr; Volver</a>
-                    <h2>${article.title}</h2>
-                    <img src="${article.image_url}" alt="${article.title}" style="max-width: 80%; height: auto;">
-                    <p><strong>Resumen:</strong> ${article.summary}</p>
-                    <p>${article.content}</p>
+                    <div class="full-article-content">
+                        <h2>${article.title}</h2>
+                        <img src="${article.image_url}" alt="${article.title}">
+                        <p><strong>Resumen:</strong> ${article.summary}</p>
+                        <p>${article.content}</p>
+                    </div>
                 `;
                 fullArticleView.style.display = "block";
                 sections.forEach((section) => section.style.display = "none");

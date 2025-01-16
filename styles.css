@@ -75,7 +75,6 @@ nav a:hover {
     max-width: 70%;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 20px;
 }
 
@@ -85,6 +84,9 @@ nav a:hover {
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     text-align: left;
     padding: 15px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -98,20 +100,40 @@ nav a:hover {
 .article img {
     max-width: 150px;
     height: auto;
-    margin: 0 auto 10px;
+    margin: 0 0 0 20px; /* Adds spacing on the left of the image */
     display: block;
 }
 
-.article h3 {
-    font-size: 1.5em;
-    color: #cc0000;
-    margin: 10px 0;
+.article-content {
+    flex: 1;
 }
 
-.article p {
-    color: #555;
-    line-height: 1.6;
-    margin: 5px 0;
+/* Full article view */
+.full-article-content {
+    max-width: 70%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.full-article-content img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+/* Back button styles */
+.back-button {
+    display: inline-block;
+    margin-bottom: 20px;
+    background-color: #cc0000;
+    color: #fff;
+    padding: 10px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.back-button:hover {
+    background-color: #a30000;
 }
 
 /* Footer styles */
