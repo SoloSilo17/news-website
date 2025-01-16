@@ -70,8 +70,21 @@ router.post("/", upload.single("image"), async (req, res) => {
 // GET: Retrieve All Articles
 router.get("/", async (req, res) => {
     try {
-        const articles = await Article.find();
-        res.json(articles);
+        const articles = await Article.find().sort({ publish_date: -1 }); // Sort by latest date
+        res.json(
+            articles.map((article) => ({
+                ...article.toObject(),
+                formatted_date: article.publish_date
+                    ? new Date(article.publish_date).toLocaleString("es-ES", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                    })
+                    : null, // Handle missing date
+            }))
+        );
     } catch (err) {
         console.error("Error fetching articles:", err);
         res.status(500).send("Error fetching articles");
@@ -82,8 +95,21 @@ router.get("/", async (req, res) => {
 router.get("/:category", async (req, res) => {
     const category = req.params.category.toLowerCase();
     try {
-        const articles = await Article.find({ category });
-        res.json(articles);
+        const articles = await Article.find({ category }).sort({ publish_date: -1 }); // Sort by latest date
+        res.json(
+            articles.map((article) => ({
+                ...article.toObject(),
+                formatted_date: article.publish_date
+                    ? new Date(article.publish_date).toLocaleString("es-ES", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                    })
+                    : null, // Handle missing date
+            }))
+        );
     } catch (err) {
         console.error("Error fetching articles by category:", err);
         res.status(500).send("Error fetching articles by category");
