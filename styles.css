@@ -29,6 +29,87 @@ header p {
     color: #ddd;
 }
 
+/* Hamburger Menu Styles */
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    margin: 10px;
+    z-index: 1000;
+    position: relative;
+}
+
+.menu-toggle .line {
+    display: block;
+    width: 30px;
+    height: 3px;
+    margin: 6px auto;
+    background-color: #cc0000;
+    border-radius: 2px;
+    transition: all 0.3s ease-in-out;
+}
+
+.menu-toggle.open .line1 {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.menu-toggle.open .line2 {
+    opacity: 0;
+}
+
+.menu-toggle.open .line3 {
+    transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* Visibility classes for the menu */
+.hidden {
+    display: none;
+}
+
+.visible {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+    position: absolute;
+    top: 50px;
+    left: 0;
+    right: 0;
+    padding: 10px 0;
+    z-index: 999;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Hamburger menu for smaller screens */
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: block;
+    }
+
+    nav {
+        display: none;
+    }
+
+    nav.visible {
+        display: flex;
+    }
+
+    nav a {
+        padding: 10px;
+        font-size: 1.2em;
+        color: #cc0000;
+        text-decoration: none;
+        border-bottom: 1px solid #eee;
+    }
+
+    nav a:hover {
+        background-color: #f4f4f4;
+    }
+}
+
+
 /* Navigation styles */
 nav {
     background-color: #cc0000;
@@ -37,6 +118,7 @@ nav {
     justify-content: center;
     gap: 20px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    flex-wrap: wrap;
 }
 
 nav a {
@@ -75,6 +157,7 @@ nav a:hover {
     max-width: 70%;
     margin: 0 auto;
     display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Flexible grid for responsiveness */
     gap: 20px;
 }
 
@@ -90,6 +173,7 @@ nav a:hover {
     text-align: left;
     padding: 15px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    flex-wrap: wrap; /* Allow wrapping for smaller screens */
 }
 
 .article:hover {
@@ -105,11 +189,12 @@ nav a:hover {
 
 .article-content {
     flex: 1;
+    min-width: 200px;
 }
 
 /* Full article view */
 .full-article-content {
-    max-width: 70%;
+    max-width: 90%; /* Adjust width for smaller screens */
     margin: 0 auto;
     text-align: center;
 }
@@ -150,4 +235,76 @@ footer {
     padding: 20px;
     font-size: 0.9em;
     border-top: 4px solid #cc0000;
+}
+
+/* Responsive Adjustments */
+
+/* For screens smaller than 768px (tablets and small devices) */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 2em;
+    }
+
+    nav {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .article {
+        flex-direction: column; /* Stack content vertically */
+        align-items: flex-start;
+    }
+
+    .article img {
+        margin-left: 0;
+        margin-bottom: 10px; /* Space between image and content */
+    }
+
+    .section-title {
+        font-size: 1.8em;
+    }
+
+    #inicio-articles,
+    #nacional-articles,
+    #internacional-articles,
+    #deportes-articles,
+    #immigracion-articles {
+        max-width: 90%; /* Use more screen width for smaller devices */
+    }
+}
+
+/* For screens smaller than 480px (phones) */
+@media (max-width: 480px) {
+    header h1 {
+        font-size: 1.8em;
+    }
+
+    header p {
+        font-size: 1em;
+    }
+
+    nav a {
+        font-size: 1em;
+        padding: 5px 10px; /* Smaller padding for smaller screens */
+    }
+
+    .section-title {
+        font-size: 1.5em;
+    }
+
+    .article-content h3 {
+        font-size: 1.2em;
+    }
+
+    .article-content p {
+        font-size: 0.9em;
+    }
+
+    .article img {
+        max-width: 100px; /* Smaller images for phones */
+    }
+
+    footer {
+        font-size: 0.8em;
+    }
 }
