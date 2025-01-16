@@ -114,22 +114,21 @@
             };
 
             const viewFullArticle = (article) => {
-                fullArticleView.innerHTML = `
-                    <a href="#" class="back-button">&larr; Volver</a>
-                    <h2>${article.title}</h2>
-                    <img src="${article.image_url}" alt="${article.title}" style="max-width: 100%; height: auto;">
-                    <p><strong>Resumen:</strong> ${article.summary}</p>
-                    <p>${article.content}</p>
-                `;
-                fullArticleView.style.display = "block";
-                sections.forEach((section) => section.style.display = "none");
+    fullArticleView.innerHTML = `
+        <a href="/immigracion" class="back-button">&larr; Volver</a>
+        <h2>${article.title}</h2>
+        <img src="${article.image_url}" alt="${article.title}" style="max-width: 100%; height: auto;">
+        <p><strong>Resumen:</strong> ${article.summary}</p>
+        <p>${article.content}</p>
+    `;
+    fullArticleView.style.display = "block";
+    sections.forEach((section) => section.style.display = "none");
 
-                const backButton = fullArticleView.querySelector(".back-button");
-                backButton.addEventListener("click", (e) => {
-                    e.preventDefault();
-                    showSection(lastSection);
-                });
-            };
+    const backButton = fullArticleView.querySelector(".back-button");
+    backButton.addEventListener("click", () => {
+        window.location.href = "/immigracion"; // Trigger a full page reload to Immigracion
+    });
+};
 
             // Restore last section or default to "inicio"
             const savedSection = localStorage.getItem("lastVisitedSection") || "inicio";
