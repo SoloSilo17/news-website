@@ -60,11 +60,9 @@
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const sections = document.querySelectorAll(".section");
-            const links = document.querySelectorAll("nav a");
             const fullArticleView = document.getElementById("full-article-view");
             let lastSection = "inicio";
 
-            // Fetch articles by category
             const fetchArticlesByCategory = async (category, containerId) => {
                 try {
                     const response = await fetch(`/api/articles/${category}`);
@@ -90,53 +88,29 @@
                             <p>${article.content}</p>
                             <img src="${article.image_url}" alt="${article.title}">
                         `;
-                        articleElement.addEventListener("click", () => {
-                            viewFullArticle(article);
-                        });
                         container.appendChild(articleElement);
                     });
                 } catch (error) {
                     console.error("Error fetching articles:", error);
+                    const container = document.getElementById(containerId);
+                    if (container) {
+                        container.innerHTML = `<p>Error loading articles. Please try again later.</p>`;
+                    }
                 }
             };
 
-            // Show a specific section
             const showSection = (sectionId) => {
                 sections.forEach((section) => {
                     section.style.display = section.id === sectionId ? "block" : "none";
                 });
-
-                if (sectionId !== "inicio") {
-                    fetchArticlesByCategory(sectionId, `${sectionId}-articles`);
-                }
+                fetchArticlesByCategory(sectionId, `${sectionId}-articles`);
                 lastSection = sectionId;
-                localStorage.setItem("lastVisitedSection", sectionId);
             };
 
-            // View a full article
-            const viewFullArticle = (article) => {
-                fullArticleView.innerHTML = `
-                    <a href="#${lastSection}" class="back-button">&larr; Volver</a>
-                    <h2>${article.title}</h2>
-                    <img src="${article.image_url}" alt="${article.title}" style="max-width: 100%; height: auto;">
-                    <p><strong>Resumen:</strong> ${article.summary}</p>
-                    <p>${article.content}</p>
-                `;
-                fullArticleView.style.display = "block";
-                sections.forEach((section) => section.style.display = "none");
-
-                const backButton = fullArticleView.querySelector(".back-button");
-                backButton.addEventListener("click", () => {
-                    window.location.href = `#${lastSection}`;
-                    window.location.reload(); // Refresh the page
-                });
-            };
-
-            // Restore last section or default to "inicio"
             const savedSection = localStorage.getItem("lastVisitedSection") || "inicio";
             showSection(savedSection);
 
-            links.forEach((link) => {
+            document.querySelectorAll("nav a").forEach((link) => {
                 link.addEventListener("click", (e) => {
                     e.preventDefault();
                     const targetSection = e.target.getAttribute("href").replace("#", "");
