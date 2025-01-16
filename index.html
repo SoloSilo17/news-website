@@ -85,8 +85,7 @@
                         articleElement.innerHTML = `
                             <div class="article-content">
                                 <h3>${article.title}</h3>
-                                <p><strong>Resumen:</strong> ${article.summary}</p>
-                                <p>${article.content}</p>
+                                <p>${article.summary}</p> <!-- Display summary -->
                                 <p class="article-date">Publicado: ${article.formatted_date || "Fecha no disponible"}</p>
                             </div>
                             <img src="${article.image_url}" alt="${article.title}">

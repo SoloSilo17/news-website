@@ -16,7 +16,7 @@ mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
 const articleSchema = new mongoose.Schema({
     title: { type: String, required: true },
     content: { type: String, required: true },
-    summary: String,
+    summary: String, // Optional summary field
     category: { type: String, required: true },
     publish_date: { type: Date, default: Date.now },
     image_url: String,
@@ -55,7 +55,7 @@ router.post("/", upload.single("image"), async (req, res) => {
             title,
             content,
             category: category ? category.toLowerCase() : "general",
-            summary,
+            summary: summary || content.slice(0, 100) + "...", // Use summary or truncate content
             image_url: req.file ? `${serverUrl}/uploads/${req.file.filename}` : null,
         });
 
