@@ -100,16 +100,28 @@
             };
 
             const showSection = (sectionId) => {
+                // Hide all sections and display the selected one
                 sections.forEach((section) => {
                     section.style.display = section.id === sectionId ? "block" : "none";
                 });
+
+                // Update the hash in the URL dynamically
+                window.location.hash = `#${sectionId}`;
+
+                // Fetch articles for the current section
                 fetchArticlesByCategory(sectionId, `${sectionId}-articles`);
+
+                // Save the last section in localStorage
                 lastSection = sectionId;
+                localStorage.setItem("lastVisitedSection", sectionId);
             };
 
-            const savedSection = localStorage.getItem("lastVisitedSection") || "inicio";
+            // Restore last section or default to "inicio" on page load
+            const hash = window.location.hash.replace("#", ""); // Extract hash without '#'
+            const savedSection = hash || localStorage.getItem("lastVisitedSection") || "inicio";
             showSection(savedSection);
 
+            // Add event listeners for navigation
             document.querySelectorAll("nav a").forEach((link) => {
                 link.addEventListener("click", (e) => {
                     e.preventDefault();
