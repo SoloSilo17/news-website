@@ -26,27 +26,27 @@
 
     <main>
         <section id="inicio" class="section">
-            <h2>Inicio</h2>
+            <h2 class="section-title">Inicio</h2>
             <div id="inicio-articles"></div>
         </section>
 
         <section id="nacional" class="section" style="display: none;">
-            <h2>Nacional</h2>
+            <h2 class="section-title">Nacional</h2>
             <div id="nacional-articles"></div>
         </section>
 
         <section id="internacional" class="section" style="display: none;">
-            <h2>Internacional</h2>
+            <h2 class="section-title">Internacional</h2>
             <div id="internacional-articles"></div>
         </section>
 
         <section id="deportes" class="section" style="display: none;">
-            <h2>Deportes</h2>
+            <h2 class="section-title">Deportes</h2>
             <div id="deportes-articles"></div>
         </section>
 
         <section id="immigracion" class="section" style="display: none;">
-            <h2>Immigracion</h2>
+            <h2 class="section-title">Immigracion</h2>
             <div id="immigracion-articles"></div>
         </section>
         
@@ -83,11 +83,14 @@
                         const articleElement = document.createElement("article");
                         articleElement.classList.add("article");
                         articleElement.innerHTML = `
+                            <img src="${article.image_url}" alt="${article.title}">
                             <h3>${article.title}</h3>
                             <p><strong>Resumen:</strong> ${article.summary}</p>
                             <p>${article.content}</p>
-                            <img src="${article.image_url}" alt="${article.title}">
                         `;
+                        articleElement.addEventListener("click", () => {
+                            viewFullArticle(article);
+                        });
                         container.appendChild(articleElement);
                     });
                 } catch (error) {
@@ -100,28 +103,40 @@
             };
 
             const showSection = (sectionId) => {
-                // Hide all sections and display the selected one
                 sections.forEach((section) => {
                     section.style.display = section.id === sectionId ? "block" : "none";
                 });
 
-                // Update the hash in the URL dynamically
                 window.location.hash = `#${sectionId}`;
 
-                // Fetch articles for the current section
                 fetchArticlesByCategory(sectionId, `${sectionId}-articles`);
 
-                // Save the last section in localStorage
                 lastSection = sectionId;
                 localStorage.setItem("lastVisitedSection", sectionId);
             };
 
-            // Restore last section or default to "inicio" on page load
-            const hash = window.location.hash.replace("#", ""); // Extract hash without '#'
+            const viewFullArticle = (article) => {
+                fullArticleView.innerHTML = `
+                    <a href="#${lastSection}" class="back-button">&larr; Volver</a>
+                    <h2>${article.title}</h2>
+                    <img src="${article.image_url}" alt="${article.title}" style="max-width: 80%; height: auto;">
+                    <p><strong>Resumen:</strong> ${article.summary}</p>
+                    <p>${article.content}</p>
+                `;
+                fullArticleView.style.display = "block";
+                sections.forEach((section) => section.style.display = "none");
+
+                const backButton = fullArticleView.querySelector(".back-button");
+                backButton.addEventListener("click", () => {
+                    window.location.href = `#${lastSection}`;
+                    window.location.reload();
+                });
+            };
+
+            const hash = window.location.hash.replace("#", "");
             const savedSection = hash || localStorage.getItem("lastVisitedSection") || "inicio";
             showSection(savedSection);
 
-            // Add event listeners for navigation
             document.querySelectorAll("nav a").forEach((link) => {
                 link.addEventListener("click", (e) => {
                     e.preventDefault();
