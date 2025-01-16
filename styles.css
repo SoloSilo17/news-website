@@ -100,8 +100,7 @@ nav a:hover {
 .article img {
     max-width: 150px;
     height: auto;
-    margin: 0 0 0 20px; /* Adds spacing on the left of the image */
-    display: block;
+    margin-left: 20px; /* Adds spacing on the left of the image */
 }
 
 .article-content {
@@ -119,6 +118,13 @@ nav a:hover {
     max-width: 100%;
     height: auto;
     margin-bottom: 20px;
+}
+
+.article-date {
+    font-size: 0.9em;
+    color: #666;
+    margin-top: 10px;
+    font-style: italic;
 }
 
 /* Back button styles */
