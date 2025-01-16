@@ -69,7 +69,7 @@ nav a:hover {
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 30px;
     padding: 20px;
-    max-width: 6oopx;
+    max-width: 600px;
     margin: 0 auto;
 }
 
@@ -97,9 +97,12 @@ nav a:hover {
 }
 
 .article-image {
-    width: 150px;
-    height: auto;
+    width: 120px; /* Smaller width for images */
+    height: auto; /* Maintain aspect ratio */
     border-radius: 8px;
+    display: block;
+    margin: 0 auto; /* Center the image */
+    object-fit: cover; /* Ensures proper scaling within dimensions */
 }
 
 .article-content h3 {
