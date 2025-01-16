@@ -87,7 +87,7 @@
                                 <h3>${article.title}</h3>
                                 <p><strong>Resumen:</strong> ${article.summary}</p>
                                 <p>${article.content}</p>
-                                <p class="article-date">Publicado: ${article.formatted_date}</p>
+                                <p class="article-date">Publicado: ${article.formatted_date || "Fecha no disponible"}</p>
                             </div>
                             <img src="${article.image_url}" alt="${article.title}">
                         `;
@@ -126,7 +126,7 @@
                         <img src="${article.image_url}" alt="${article.title}">
                         <p><strong>Resumen:</strong> ${article.summary}</p>
                         <p>${article.content}</p>
-                        <p class="article-date">Publicado: ${article.formatted_date}</p>
+                        <p class="article-date">Publicado: ${article.formatted_date || "Fecha no disponible"}</p>
                     </div>
                 `;
                 fullArticleView.style.display = "block";
