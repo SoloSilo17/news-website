@@ -31,13 +31,14 @@ header p {
 
 /* Navigation styles */
 nav {
+    background-color: #cc0000;
+    padding: 10px 0;
     display: flex;
     justify-content: center;
-    background-color: #cc0000;
-    padding: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    flex-wrap: wrap;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    position: relative;
     z-index: 1000;
-    position: relative; /* To ensure proper stacking on small screens */
 }
 
 nav a {
@@ -45,7 +46,7 @@ nav a {
     font-size: 1.1em;
     font-weight: bold;
     text-decoration: none;
-    padding: 5px 15px;
+    padding: 10px 15px;
     border-radius: 20px;
     transition: background-color 0.3s ease;
 }
@@ -58,13 +59,13 @@ nav a:hover {
 .menu-toggle {
     display: none;
     font-size: 1.5em;
-    padding: 10px;
+    padding: 10px 15px;
     border: none;
     background: none;
     color: #fff;
     cursor: pointer;
     position: relative;
-    z-index: 1010; /* Ensure it stays above the nav */
+    z-index: 1100;
 }
 
 /* Hamburger Menu Active State */
@@ -79,7 +80,6 @@ nav.open {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Links inside expanded hamburger menu */
 nav.open a {
     padding: 10px 20px;
     text-decoration: none;
