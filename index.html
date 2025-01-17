@@ -156,10 +156,13 @@
                 sections.forEach((section) => section.style.display = "none");
 
                 const backButton = fullArticleView.querySelector(".back-button");
-                backButton.addEventListener("click", (e) => {
-                    e.preventDefault();
-                    showSection(lastSection);
-                });
+backButton.addEventListener("click", (e) => {
+    e.preventDefault();
+    // Update the URL to point to the last section and refresh the page
+    window.location.href = `#${lastSection}`;
+    window.location.reload();
+});
+
             };
 
             const hash = window.location.hash.replace("#", "");
