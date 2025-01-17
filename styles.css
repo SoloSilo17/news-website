@@ -36,9 +36,17 @@ nav {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    position: relative;
-    z-index: 1000;
+    transition: max-height 0.3s ease;
+    overflow: hidden;
+    max-height: none; /* Default state for larger screens */
+}
+
+nav.collapsed {
+    max-height: 0; /* Hide navigation menu on small screens */
+}
+
+nav.open {
+    max-height: 300px; /* Adjust based on menu size */
 }
 
 nav a {
@@ -57,12 +65,12 @@ nav a:hover {
 
 /* Hamburger Menu Bar */
 .hamburger-bar {
-    background-color: #cc0000;
-    height: 50px;
     display: none; /* Hidden by default */
     align-items: center;
     justify-content: space-between;
-    padding: 0 10px;
+    padding: 10px;
+    background-color: #f4f4f4;
+    border-bottom: 1px solid #ccc;
     position: sticky;
     top: 0;
     z-index: 1100;
@@ -75,20 +83,8 @@ nav a:hover {
     }
 
     nav {
-        display: none; /* Hide navigation menu by default */
+        max-height: 0; /* Hide navigation menu by default */
         flex-direction: column;
-        align-items: center;
-        position: absolute;
-        top: 50px; /* Position below hamburger bar */
-        left: 0;
-        right: 0;
-        z-index: 1000;
-        background-color: #cc0000;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    nav.open {
-        display: flex; /* Show navigation menu when open */
     }
 }
 
@@ -107,17 +103,17 @@ nav a:hover {
 .menu-toggle span {
     display: block;
     height: 4px;
-    background: #fff;
+    background: #cc0000;
     border-radius: 2px;
     width: 100%;
     transition: all 0.3s;
 }
 
-/* When Menu is Open */
 .menu-toggle.open span {
     background: #ff4d4d;
 }
 
+/* Navigation styles when opened */
 nav.open a {
     padding: 10px 20px;
     text-decoration: none;
@@ -141,7 +137,6 @@ nav.open a:hover {
     font-size: 2em;
     color: #cc0000;
     margin-bottom: 20px;
-    text-align: center;
 }
 
 /* Article container */

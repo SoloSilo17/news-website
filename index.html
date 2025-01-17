@@ -16,23 +16,23 @@
         <p>El portal para las últimas noticias del mundo hispanohablante.</p>
     </header>
 
-    <!-- Navigation Menu -->
-    <nav id="main-nav">
-        <a href="#inicio" id="inicio-link">Inicio</a>
-        <a href="#nacional" id="nacional-link">Nacional</a>
-        <a href="#internacional" id="internacional-link">Internacional</a>
-        <a href="#deportes" id="deportes-link">Deportes</a>
-        <a href="#immigracion" id="immigracion-link">Immigracion</a>
-    </nav>
-
-     <!-- Hamburger Menu Button -->
-     <div class="hamburger-bar">
+    <!-- Hamburger Menu Button -->
+    <div class="hamburger-bar">
         <button id="menu-toggle" class="menu-toggle" aria-label="Toggle navigation">
             <span></span>
             <span></span>
             <span></span>
         </button>
     </div>
+
+    <!-- Navigation Menu -->
+    <nav id="main-nav" class="collapsed">
+        <a href="#inicio" id="inicio-link">Inicio</a>
+        <a href="#nacional" id="nacional-link">Nacional</a>
+        <a href="#internacional" id="internacional-link">Internacional</a>
+        <a href="#deportes" id="deportes-link">Deportes</a>
+        <a href="#immigracion" id="immigracion-link">Immigracion</a>
+    </nav>
 
     <main>
         <section id="inicio" class="section">
@@ -74,7 +74,7 @@
 
             // Toggle navigation visibility
             menuToggle.addEventListener("click", () => {
-                mainNav.classList.toggle("open");
+                mainNav.classList.toggle("collapsed");
                 menuToggle.classList.toggle("open");
             });
 
@@ -82,7 +82,7 @@
             const menuLinks = document.querySelectorAll("nav a");
             menuLinks.forEach((link) => {
                 link.addEventListener("click", () => {
-                    mainNav.classList.remove("open");
+                    mainNav.classList.add("collapsed");
                     menuToggle.classList.remove("open");
                 });
             });
