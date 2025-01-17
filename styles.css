@@ -55,24 +55,33 @@ nav a:hover {
     background-color: #ff4d4d;
 }
 
+/* Hamburger Menu Bar */
+.hamburger-bar {
+    background-color: #cc0000;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    position: sticky;
+    top: 0;
+    z-index: 1100;
+}
+
 /* Hamburger Menu Button */
 .menu-toggle {
-    display: none;
-    font-size: 1.5em;
-    padding: 10px 15px;
+    font-size: 1.8em;
     border: none;
     background: none;
     color: #fff;
     cursor: pointer;
-    position: relative;
-    z-index: 1100;
+    z-index: 1101;
 }
 
 /* Hamburger Menu Active State */
 nav.open {
     flex-direction: column;
     position: absolute;
-    top: 60px;
+    top: 50px; /* Position below the hamburger bar */
     left: 0;
     right: 0;
     background-color: #cc0000;
@@ -201,10 +210,6 @@ footer {
 @media (max-width: 768px) {
     header h1 {
         font-size: 2em;
-    }
-
-    .menu-toggle {
-        display: block;
     }
 
     nav {
