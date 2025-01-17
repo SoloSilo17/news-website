@@ -76,7 +76,7 @@ nav a:hover {
 
 /* Hamburger Menu Bar */
 .hamburger-bar {
-    background-color: #ff4d4d;
+    background-color: #cc0000;
     display: none; /* Hidden by default */
     align-items: center;
     justify-content: space-between;
@@ -108,7 +108,7 @@ nav a:hover {
 .menu-toggle span {
     display: block;
     height: 4px;
-    background: #ff4d4d;
+    background: white;
     border-radius: 2px;
     width: 100%;
     transition: all 0.3s;
@@ -116,7 +116,7 @@ nav a:hover {
 
 /* When Menu is Open */
 .menu-toggle.open span {
-    background: #ff4d4d;
+    background: #cc0000;
 }
 
 nav.open a {
