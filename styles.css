@@ -29,39 +29,13 @@ header p {
     color: #ddd;
 }
 
-/* Navigation styles */
-nav {
-    background-color: #cc0000;
-    padding: 10px 0;
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    position: relative;
-    z-index: 1000;
-}
-
-nav a {
-    color: #fff;
-    font-size: 1.1em;
-    font-weight: bold;
-    text-decoration: none;
-    padding: 10px 15px;
-    border-radius: 20px;
-    transition: background-color 0.3s ease;
-}
-
-nav a:hover {
-    background-color: #ff4d4d;
-}
-
 /* Hamburger Menu Bar */
 .hamburger-bar {
     background-color: #cc0000;
     height: 50px;
     display: flex;
     align-items: center;
-    padding: 0 10px;
+    padding: 0 15px;
     position: sticky;
     top: 0;
     z-index: 1100;
@@ -69,35 +43,69 @@ nav a:hover {
 
 /* Hamburger Menu Button */
 .menu-toggle {
+    display: block;
     font-size: 1.8em;
     border: none;
     background: none;
-    color: #fff;
+    color: transparent; /* Hide default button color */
     cursor: pointer;
+    position: relative;
     z-index: 1101;
+    width: 30px;
+    height: 20px;
 }
 
-/* Hamburger Menu Active State */
-nav.open {
-    flex-direction: column;
-    position: absolute;
-    top: 50px; /* Position below the hamburger bar */
-    left: 0;
-    right: 0;
+/* Hamburger Menu Lines */
+.menu-toggle:before,
+.menu-toggle:after,
+.menu-toggle span {
+    content: '';
+    display: block;
+    background-color: #fff; /* Default white for lines */
+    height: 4px;
+    width: 100%;
+    margin: 4px 0;
+    border-radius: 2px;
+    transition: background-color 0.3s ease;
+}
+
+/* Red Hamburger Lines */
+.menu-toggle.open:before,
+.menu-toggle.open:after,
+.menu-toggle.open span {
+    background-color: #cc0000;
+}
+
+/* Navigation styles */
+nav {
     background-color: #cc0000;
     padding: 10px 0;
+    display: none;
+    flex-direction: column;
+    align-items: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: absolute;
+    top: 50px; /* Ensures the menu appears below the hamburger */
+    left: 0;
+    right: 0;
+    z-index: 1000;
 }
 
-nav.open a {
-    padding: 10px 20px;
-    text-decoration: none;
-    font-size: 1.2em;
+nav.open {
+    display: flex;
+}
+
+nav a {
     color: #fff;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 10px 15px;
     border-bottom: 1px solid #eee;
+    transition: background-color 0.3s ease;
 }
 
-nav.open a:hover {
+nav a:hover {
     background-color: #f4f4f4;
     color: #cc0000;
 }
@@ -212,28 +220,6 @@ footer {
         font-size: 2em;
     }
 
-    nav {
-        display: none; /* Hide nav by default on smaller screens */
-    }
-
-    nav.open {
-        display: flex;
-    }
-
-    .article {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .article img {
-        margin-left: 0;
-        margin-bottom: 10px;
-    }
-
-    .section-title {
-        font-size: 1.8em;
-    }
-
     #inicio-articles,
     #nacional-articles,
     #internacional-articles,
@@ -253,9 +239,9 @@ footer {
         font-size: 1em;
     }
 
-    nav.open a {
+    nav a {
         font-size: 1em;
-        padding: 5px 15px;
+        padding: 10px 15px;
     }
 
     .section-title {
