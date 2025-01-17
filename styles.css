@@ -33,7 +33,7 @@ header p {
 nav {
     background-color: #cc0000;
     padding: 10px 0;
-    display: flex; /* Ensure the menu is always visible on large screens */
+    display: flex; /* Ensure menu is always visible on large screens */
     justify-content: center;
     flex-wrap: wrap;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
@@ -41,12 +41,22 @@ nav {
     z-index: 1000;
 }
 
-/* Ensure full visibility for large screens */
-@media (min-width: 769px) {
+@media (max-width: 768px) {
     nav {
-        display: flex; /* Always display the navigation menu */
-        height: auto; /* Remove height restrictions */
-        overflow: visible; /* Ensure no hidden content */
+        display: none; /* Hide navigation menu by default on small screens */
+        flex-direction: column;
+        align-items: center;
+        position: static;
+        background-color: #cc0000;
+        padding: 0;
+    }
+
+    nav.open {
+        display: flex; /* Show menu when toggled */
+        flex-direction: column;
+        position: static; /* Remove absolute positioning */
+        width: 100%;
+        padding: 10px 0;
     }
 }
 
@@ -66,38 +76,19 @@ nav a:hover {
 
 /* Hamburger Menu Bar */
 .hamburger-bar {
-    background-color: #cc0000;
-    height: 50px;
-    display: none; /* Hidden by default for large screens */
+    background-color: transparent;
+    display: none; /* Hidden by default */
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
     padding: 10px;
     position: sticky;
     top: 0;
     z-index: 1100;
 }
 
-/* Show Hamburger Menu on Small Screens */
 @media (max-width: 768px) {
     .hamburger-bar {
-        display: flex; /* Show hamburger bar on small screens */
-    }
-
-    nav {
-        display: none; /* Hide navigation menu by default */
-        flex-direction: column;
-        align-items: center;
-        position: absolute;
-        top: 50px; /* Position below hamburger bar */
-        left: 0;
-        right: 0;
-        z-index: 1000;
-        background-color: #cc0000;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    nav.open {
-        display: flex; /* Show navigation menu when open */
+        display: flex; /* Show hamburger menu bar on small screens */
     }
 }
 
