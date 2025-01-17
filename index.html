@@ -18,9 +18,7 @@
 
     <!-- Hamburger Menu Button -->
     <button id="menu-toggle" class="menu-toggle" aria-label="Toggle navigation">
-        <span class="line line1"></span>
-        <span class="line line2"></span>
-        <span class="line line3"></span>
+        ☰
     </button>
 
     <nav id="main-nav" class="hidden">
@@ -69,11 +67,10 @@
             const menuToggle = document.getElementById("menu-toggle");
             const mainNav = document.getElementById("main-nav");
 
-            // Toggle navigation visibility and animate the hamburger menu
+            // Toggle navigation visibility
             menuToggle.addEventListener("click", () => {
                 mainNav.classList.toggle("hidden");
                 mainNav.classList.toggle("visible");
-                menuToggle.classList.toggle("open");
             });
 
             const sections = document.querySelectorAll(".section");
