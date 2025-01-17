@@ -19,8 +19,8 @@ const articleSchema = new mongoose.Schema({
     summary: String, // Optional summary field
     category: { type: String, required: true },
     publish_date: { type: Date, default: Date.now },
-    image_url: String,
-    additional_images: [String],
+    image_url: String, // Main image URL
+    additional_images: [String], // Array of additional image URLs
 });
 
 const Article = mongoose.model("Article", articleSchema);
@@ -55,30 +55,43 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // POST: Create an Article with Images (Authenticated)
-router.post("/", authenticate, upload.single("image"), async (req, res) => {
-    try {
-        const { title, content, category, summary } = req.body;
+router.post(
+    "/",
+    authenticate,
+    upload.fields([
+        { name: "image", maxCount: 1 }, // Main image
+        { name: "additional_images", maxCount: 5 }, // Up to 5 additional images
+    ]),
+    async (req, res) => {
+        try {
+            const { title, content, category, summary } = req.body;
 
-        if (!title || !content) {
-            return res.status(400).json({ error: "Title and content are required." });
+            if (!title || !content) {
+                return res.status(400).json({ error: "Title and content are required." });
+            }
+
+            const serverUrl = req.protocol + "://" + req.get("host");
+            const newArticle = new Article({
+                title,
+                content,
+                category: category ? category.toLowerCase() : "general",
+                summary: summary || content.slice(0, 100) + "...", // Use summary or truncate content
+                image_url: req.files["image"]
+                    ? `${serverUrl}/uploads/${req.files["image"][0].filename}`
+                    : null, // Main image URL
+                additional_images: req.files["additional_images"]
+                    ? req.files["additional_images"].map((file) => `${serverUrl}/uploads/${file.filename}`)
+                    : [], // Array of additional image URLs
+            });
+
+            await newArticle.save();
+            res.status(201).json({ message: "Article created successfully!", article: newArticle });
+        } catch (error) {
+            console.error("Error processing request:", error.message);
+            res.status(500).json({ error: "Internal Server Error" });
         }
-
-        const serverUrl = req.protocol + "://" + req.get("host");
-        const newArticle = new Article({
-            title,
-            content,
-            category: category ? category.toLowerCase() : "general",
-            summary: summary || content.slice(0, 100) + "...", // Use summary or truncate content
-            image_url: req.file ? `${serverUrl}/uploads/${req.file.filename}` : null,
-        });
-
-        await newArticle.save();
-        res.status(201).json({ message: "Article created successfully!", article: newArticle });
-    } catch (error) {
-        console.error("Error processing request:", error.message);
-        res.status(500).json({ error: "Internal Server Error" });
     }
-});
+);
 
 // GET: Retrieve All Articles
 router.get("/", async (req, res) => {
@@ -88,12 +101,13 @@ router.get("/", async (req, res) => {
             articles.map((article) => ({
                 ...article.toObject(),
                 formatted_date: article.publish_date
-                    ? new Date(article.publish_date).toLocaleString("es-ES", {
+                    ? new Date(article.publish_date).toLocaleString("en-US", {
                         year: "numeric",
                         month: "long",
                         day: "numeric",
                         hour: "2-digit",
                         minute: "2-digit",
+                        timeZone: "America/New_York", // Use US Eastern Time
                     })
                     : null, // Handle missing date
             }))
@@ -113,12 +127,13 @@ router.get("/:category", async (req, res) => {
             articles.map((article) => ({
                 ...article.toObject(),
                 formatted_date: article.publish_date
-                    ? new Date(article.publish_date).toLocaleString("es-ES", {
+                    ? new Date(article.publish_date).toLocaleString("en-US", {
                         year: "numeric",
                         month: "long",
                         day: "numeric",
                         hour: "2-digit",
                         minute: "2-digit",
+                        timeZone: "America/New_York", // Use US Eastern Time
                     })
                     : null, // Handle missing date
             }))
