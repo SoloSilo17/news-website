@@ -234,6 +234,27 @@ footer {
     border-top: 4px solid #cc0000;
 }
 
+.additional-images {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.additional-images .additional-image {
+    max-width: 100px;
+    height: auto;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+}
+
+.additional-images .additional-image:hover {
+    transform: scale(1.1);
+}
+
+
 /* For screens smaller than 480px (phones) */
 @media (max-width: 480px) {
     header h1 {
