@@ -78,6 +78,15 @@
                 menuToggle.classList.toggle("open");
             });
 
+            // Collapse menu when a menu option is clicked
+            const menuLinks = document.querySelectorAll("nav a");
+            menuLinks.forEach((link) => {
+                link.addEventListener("click", () => {
+                    mainNav.classList.remove("open");
+                    menuToggle.classList.remove("open");
+                });
+            });
+
             const sections = document.querySelectorAll(".section");
             const fullArticleView = document.getElementById("full-article-view");
             let lastSection = "inicio";
@@ -132,6 +141,27 @@
                 localStorage.setItem("lastVisitedSection", sectionId);
             };
 
+            const viewFullArticle = (article) => {
+                fullArticleView.innerHTML = `
+                    <a href="#${lastSection}" class="back-button">&larr; Volver</a>
+                    <div class="full-article-content">
+                        <h2>${article.title}</h2>
+                        <img src="${article.image_url}" alt="${article.title}">
+                        <p><strong>Resumen:</strong> ${article.summary}</p>
+                        <p>${article.content}</p>
+                        <p class="article-date">Publicado: ${article.formatted_date || "Fecha no disponible"}</p>
+                    </div>
+                `;
+                fullArticleView.style.display = "block";
+                sections.forEach((section) => section.style.display = "none");
+
+                const backButton = fullArticleView.querySelector(".back-button");
+                backButton.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    showSection(lastSection);
+                });
+            };
+
             const hash = window.location.hash.replace("#", "");
             const savedSection = hash || localStorage.getItem("lastVisitedSection") || "inicio";
             showSection(savedSection);
@@ -147,4 +177,3 @@
     </script>
 </body>
 </html>
-
