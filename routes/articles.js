@@ -25,6 +25,19 @@ const articleSchema = new mongoose.Schema({
 
 const Article = mongoose.model("Article", articleSchema);
 
+// API Key for Authentication
+const API_KEY = "2a8070f1-b15b-4100-bec0-e56c3a144337";
+
+// Middleware for API Key Authentication
+const authenticate = (req, res, next) => {
+    const key = req.headers["x-api-key"];
+    if (key && key === API_KEY) {
+        next();
+    } else {
+        res.status(403).json({ error: "Unauthorized access." });
+    }
+};
+
 // Configure Multer for File Uploads
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -41,8 +54,8 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-// POST: Create an Article with Images
-router.post("/", upload.single("image"), async (req, res) => {
+// POST: Create an Article with Images (Authenticated)
+router.post("/", authenticate, upload.single("image"), async (req, res) => {
     try {
         const { title, content, category, summary } = req.body;
 
