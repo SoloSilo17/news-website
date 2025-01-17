@@ -94,8 +94,8 @@ nav a:hover {
 
 /* Hamburger Menu Button */
 .menu-toggle {
-    color: red;
-    background: red;
+    color: white;
+    background: none;
     border: none;
     display: flex;
     flex-direction: column;
@@ -108,7 +108,7 @@ nav a:hover {
 .menu-toggle span {
     display: block;
     height: 4px;
-    background: #fff;
+    background: red;
     border-radius: 2px;
     width: 100%;
     transition: all 0.3s;
