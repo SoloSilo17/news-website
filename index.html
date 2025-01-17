@@ -74,7 +74,7 @@
 
             // Toggle navigation visibility
             menuToggle.addEventListener("click", () => {
-                mainNav.classList.toggle("collapsed");
+                mainNav.classList.toggle("open");
                 menuToggle.classList.toggle("open");
             });
 
@@ -82,7 +82,7 @@
             const menuLinks = document.querySelectorAll("nav a");
             menuLinks.forEach((link) => {
                 link.addEventListener("click", () => {
-                    mainNav.classList.add("collapsed");
+                    mainNav.classList.remove("open");
                     menuToggle.classList.remove("open");
                 });
             });

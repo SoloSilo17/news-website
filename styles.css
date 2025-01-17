@@ -36,19 +36,24 @@ nav {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    transition: max-height 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    position: relative;
+    z-index: 1000;
     overflow: hidden;
-    max-height: none; /* Default state for larger screens */
+    height: auto; /* Default for large screens */
+    transition: max-height 0.3s ease;
 }
 
 nav.collapsed {
-    max-height: 0; /* Hide navigation menu on small screens */
+    max-height: 0; /* Hide navigation menu on small screens by default */
+    overflow: hidden;
 }
 
 nav.open {
-    max-height: 300px; /* Adjust based on menu size */
+    max-height: 300px; /* Adjust to fit the number of menu items */
 }
 
+/* Navigation links */
 nav a {
     color: #fff;
     font-size: 1.1em;
@@ -69,8 +74,7 @@ nav a:hover {
     align-items: center;
     justify-content: space-between;
     padding: 10px;
-    background-color: #f4f4f4;
-    border-bottom: 1px solid #ccc;
+    background-color: #cc0000;
     position: sticky;
     top: 0;
     z-index: 1100;
@@ -83,7 +87,6 @@ nav a:hover {
     }
 
     nav {
-        max-height: 0; /* Hide navigation menu by default */
         flex-direction: column;
     }
 }
@@ -103,17 +106,17 @@ nav a:hover {
 .menu-toggle span {
     display: block;
     height: 4px;
-    background: #cc0000;
+    background: #fff;
     border-radius: 2px;
     width: 100%;
     transition: all 0.3s;
 }
 
+/* When Menu is Open */
 .menu-toggle.open span {
     background: #ff4d4d;
 }
 
-/* Navigation styles when opened */
 nav.open a {
     padding: 10px 20px;
     text-decoration: none;
@@ -137,6 +140,7 @@ nav.open a:hover {
     font-size: 2em;
     color: #cc0000;
     margin-bottom: 20px;
+    text-align: center;
 }
 
 /* Article container */
