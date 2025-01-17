@@ -116,7 +116,7 @@ nav a:hover {
 
 /* When Menu is Open */
 .menu-toggle.open span {
-    background: #cc0000;
+    background: white;
 }
 
 nav.open a {
