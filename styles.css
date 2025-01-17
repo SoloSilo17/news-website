@@ -1,4 +1,4 @@
-/* General styles */
+/* General Styles */
 body {
     font-family: 'Roboto', Arial, sans-serif;
     margin: 0;
@@ -31,13 +31,13 @@ header p {
 
 /* Navigation styles */
 nav {
-    background-color: #cc0000;
-    padding: 15px 0;
     display: flex;
     justify-content: center;
-    gap: 20px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    flex-wrap: wrap;
+    background-color: #cc0000;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    position: relative; /* To ensure proper stacking on small screens */
 }
 
 nav a {
@@ -52,6 +52,45 @@ nav a {
 
 nav a:hover {
     background-color: #ff4d4d;
+}
+
+/* Hamburger Menu Button */
+.menu-toggle {
+    display: none;
+    font-size: 1.5em;
+    padding: 10px;
+    border: none;
+    background: none;
+    color: #fff;
+    cursor: pointer;
+    position: relative;
+    z-index: 1010; /* Ensure it stays above the nav */
+}
+
+/* Hamburger Menu Active State */
+nav.open {
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    right: 0;
+    background-color: #cc0000;
+    padding: 10px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Links inside expanded hamburger menu */
+nav.open a {
+    padding: 10px 20px;
+    text-decoration: none;
+    font-size: 1.2em;
+    color: #fff;
+    border-bottom: 1px solid #eee;
+}
+
+nav.open a:hover {
+    background-color: #f4f4f4;
+    color: #cc0000;
 }
 
 /* Section styles */
@@ -76,7 +115,7 @@ nav a:hover {
     max-width: 70%;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Flexible grid for responsiveness */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 20px;
 }
 
@@ -92,7 +131,7 @@ nav a:hover {
     text-align: left;
     padding: 15px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    flex-wrap: wrap; /* Allow wrapping for smaller screens */
+    flex-wrap: wrap;
 }
 
 .article:hover {
@@ -103,7 +142,7 @@ nav a:hover {
 .article img {
     max-width: 150px;
     height: auto;
-    margin-left: 20px; /* Adds spacing on the left of the image */
+    margin-left: 20px;
 }
 
 .article-content {
@@ -113,7 +152,7 @@ nav a:hover {
 
 /* Full article view */
 .full-article-content {
-    max-width: 90%; /* Adjust width for smaller screens */
+    max-width: 90%;
     margin: 0 auto;
     text-align: center;
 }
@@ -156,48 +195,6 @@ footer {
     border-top: 4px solid #cc0000;
 }
 
-/* Hamburger Menu Button */
-.menu-toggle {
-    display: none;
-    background: none;
-    border: none;
-    font-size: 1.5em;
-    cursor: pointer;
-    padding: 10px;
-    color: #cc0000;
-    margin: 10px;
-}
-
-/* Visibility classes for the menu */
-.hidden {
-    display: none;
-}
-
-.visible {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #fff;
-    position: absolute;
-    top: 60px;
-    left: 0;
-    right: 0;
-    z-index: 1000;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-nav.visible a {
-    padding: 10px 20px;
-    text-decoration: none;
-    color: #333;
-    font-size: 1.2em;
-    border-bottom: 1px solid #eee;
-}
-
-nav.visible a:hover {
-    background-color: #f4f4f4;
-}
-
 /* Responsive Adjustments */
 
 /* For screens smaller than 768px (tablets and small devices) */
@@ -214,18 +211,18 @@ nav.visible a:hover {
         display: none; /* Hide nav by default on smaller screens */
     }
 
-    nav.visible {
+    nav.open {
         display: flex;
     }
 
     .article {
-        flex-direction: column; /* Stack content vertically */
+        flex-direction: column;
         align-items: flex-start;
     }
 
     .article img {
         margin-left: 0;
-        margin-bottom: 10px; /* Space between image and content */
+        margin-bottom: 10px;
     }
 
     .section-title {
@@ -237,7 +234,7 @@ nav.visible a:hover {
     #internacional-articles,
     #deportes-articles,
     #immigracion-articles {
-        max-width: 90%; /* Use more screen width for smaller devices */
+        max-width: 90%;
     }
 }
 
@@ -251,9 +248,9 @@ nav.visible a:hover {
         font-size: 1em;
     }
 
-    nav a {
+    nav.open a {
         font-size: 1em;
-        padding: 5px 10px; /* Smaller padding for smaller screens */
+        padding: 5px 15px;
     }
 
     .section-title {
@@ -269,7 +266,7 @@ nav.visible a:hover {
     }
 
     .article img {
-        max-width: 100px; /* Smaller images for phones */
+        max-width: 100px;
     }
 
     footer {

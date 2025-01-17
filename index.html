@@ -21,7 +21,7 @@
         ☰
     </button>
 
-    <nav id="main-nav" class="hidden">
+    <nav id="main-nav">
         <a href="#inicio" id="inicio-link">Inicio</a>
         <a href="#nacional" id="nacional-link">Nacional</a>
         <a href="#internacional" id="internacional-link">Internacional</a>
@@ -69,8 +69,7 @@
 
             // Toggle navigation visibility
             menuToggle.addEventListener("click", () => {
-                mainNav.classList.toggle("hidden");
-                mainNav.classList.toggle("visible");
+                mainNav.classList.toggle("open");
             });
 
             const sections = document.querySelectorAll(".section");
