@@ -33,27 +33,23 @@ header p {
 nav {
     background-color: #cc0000;
     padding: 10px 0;
-    display: flex;
+    display: flex; /* Ensure the menu is always visible on large screens */
     justify-content: center;
     flex-wrap: wrap;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     position: relative;
     z-index: 1000;
-    overflow: hidden;
-    height: auto; /* Default for large screens */
-    transition: max-height 0.3s ease;
 }
 
-nav.collapsed {
-    max-height: 0; /* Hide navigation menu on small screens by default */
-    overflow: hidden;
+/* Ensure full visibility for large screens */
+@media (min-width: 769px) {
+    nav {
+        display: flex; /* Always display the navigation menu */
+        height: auto; /* Remove height restrictions */
+        overflow: visible; /* Ensure no hidden content */
+    }
 }
 
-nav.open {
-    max-height: 300px; /* Adjust to fit the number of menu items */
-}
-
-/* Navigation links */
 nav a {
     color: #fff;
     font-size: 1.1em;
@@ -70,11 +66,12 @@ nav a:hover {
 
 /* Hamburger Menu Bar */
 .hamburger-bar {
-    display: none; /* Hidden by default */
+    background-color: #cc0000;
+    height: 50px;
+    display: none; /* Hidden by default for large screens */
     align-items: center;
     justify-content: space-between;
     padding: 10px;
-    background-color: #cc0000;
     position: sticky;
     top: 0;
     z-index: 1100;
@@ -83,11 +80,24 @@ nav a:hover {
 /* Show Hamburger Menu on Small Screens */
 @media (max-width: 768px) {
     .hamburger-bar {
-        display: flex; /* Show hamburger bar */
+        display: flex; /* Show hamburger bar on small screens */
     }
 
     nav {
+        display: none; /* Hide navigation menu by default */
         flex-direction: column;
+        align-items: center;
+        position: absolute;
+        top: 50px; /* Position below hamburger bar */
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        background-color: #cc0000;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    nav.open {
+        display: flex; /* Show navigation menu when open */
     }
 }
 
