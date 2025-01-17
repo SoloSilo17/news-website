@@ -18,7 +18,11 @@
 
     <!-- Hamburger Menu Button -->
     <div class="hamburger-bar">
-        <button id="menu-toggle" class="menu-toggle" aria-label="Toggle navigation">☰</button>
+        <button id="menu-toggle" class="menu-toggle" aria-label="Toggle navigation">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
     </div>
     
     <!-- Navigation Menu -->
@@ -71,6 +75,7 @@
             // Toggle navigation visibility
             menuToggle.addEventListener("click", () => {
                 mainNav.classList.toggle("open");
+                menuToggle.classList.toggle("open");
             });
 
             const sections = document.querySelectorAll(".section");
@@ -111,10 +116,6 @@
                     });
                 } catch (error) {
                     console.error("Error fetching articles:", error);
-                    const container = document.getElementById(containerId);
-                    if (container) {
-                        container.innerHTML = `<p>Error loading articles. Please try again later.</p>`;
-                    }
                 }
             };
 
@@ -129,27 +130,6 @@
 
                 lastSection = sectionId;
                 localStorage.setItem("lastVisitedSection", sectionId);
-            };
-
-            const viewFullArticle = (article) => {
-                fullArticleView.innerHTML = `
-                    <a href="#${lastSection}" class="back-button">&larr; Volver</a>
-                    <div class="full-article-content">
-                        <h2>${article.title}</h2>
-                        <img src="${article.image_url}" alt="${article.title}">
-                        <p><strong>Resumen:</strong> ${article.summary}</p>
-                        <p>${article.content}</p>
-                        <p class="article-date">Publicado: ${article.formatted_date || "Fecha no disponible"}</p>
-                    </div>
-                `;
-                fullArticleView.style.display = "block";
-                sections.forEach((section) => section.style.display = "none");
-
-                const backButton = fullArticleView.querySelector(".back-button");
-                backButton.addEventListener("click", () => {
-                    window.location.href = `#${lastSection}`;
-                    window.location.reload();
-                });
             };
 
             const hash = window.location.hash.replace("#", "");
@@ -167,3 +147,4 @@
     </script>
 </body>
 </html>
+

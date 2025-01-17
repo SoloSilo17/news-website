@@ -61,6 +61,7 @@ nav a:hover {
     height: 50px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     padding: 0 10px;
     position: sticky;
     top: 0;
@@ -69,24 +70,46 @@ nav a:hover {
 
 /* Hamburger Menu Button */
 .menu-toggle {
-    font-size: 1.8em;
-    border: none;
     background: none;
-    color: #fff;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 30px;
+    height: 25px;
     cursor: pointer;
-    z-index: 1101;
 }
 
-/* Hamburger Menu Active State */
-nav.open {
+.menu-toggle span {
+    display: block;
+    height: 4px;
+    background: #fff;
+    border-radius: 2px;
+    width: 100%;
+    transition: all 0.3s;
+}
+
+/* When Menu is Open */
+.menu-toggle.open span {
+    background: #ff4d4d;
+}
+
+/* Navigation styles for small screens */
+nav {
+    display: none; /* Hide nav by default on smaller screens */
     flex-direction: column;
+    align-items: center;
     position: absolute;
-    top: 50px; /* Position below the hamburger bar */
+    top: 50px; /* Position below hamburger bar */
     left: 0;
     right: 0;
+    z-index: 1000;
     background-color: #cc0000;
-    padding: 10px 0;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+nav.open {
+    display: flex;
 }
 
 nav.open a {
@@ -210,14 +233,6 @@ footer {
 @media (max-width: 768px) {
     header h1 {
         font-size: 2em;
-    }
-
-    nav {
-        display: none; /* Hide nav by default on smaller screens */
-    }
-
-    nav.open {
-        display: flex;
     }
 
     .article {
