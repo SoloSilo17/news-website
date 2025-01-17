@@ -95,7 +95,7 @@ nav a:hover {
 /* Hamburger Menu Button */
 .menu-toggle {
     color: red;
-    background: none;
+    background: red;
     border: none;
     display: flex;
     flex-direction: column;
