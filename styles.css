@@ -254,6 +254,33 @@ footer {
     transform: scale(1.1);
 }
 
+.gallery {
+    display: flex; /* Arrange images side by side */
+    gap: 10px; /* Add space between images */
+    overflow-x: auto; /* Enable horizontal scrolling */
+    padding: 10px 0; /* Add padding around the gallery */
+}
+
+.gallery img {
+    height: 150px; /* Set a fixed height for the images */
+    border-radius: 5px; /* Optional: Add rounded corners */
+    object-fit: cover; /* Ensure images maintain aspect ratio */
+    cursor: pointer; /* Change cursor to pointer for interactivity */
+}
+
+.gallery::-webkit-scrollbar {
+    height: 8px; /* Adjust scrollbar height */
+}
+
+.gallery::-webkit-scrollbar-thumb {
+    background: #ccc; /* Style the scrollbar thumb */
+    border-radius: 4px;
+}
+
+.gallery::-webkit-scrollbar-track {
+    background: #f4f4f4; /* Style the scrollbar track */
+}
+
 
 /* For screens smaller than 480px (phones) */
 @media (max-width: 480px) {

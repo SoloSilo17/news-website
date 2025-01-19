@@ -11,13 +11,12 @@
     <link rel="stylesheet" href="styles.css">
 
     <!-- Favicon and App Icons -->
-<link rel="apple-touch-icon" sizes="180x180" href="/uploads/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon-16x16.png">
-<link rel="manifest" href="/site.webmanifest">
-<link rel="shortcut icon" href="/favicon.ico">
-<meta name="theme-color" content="#ffffff">
-
+    <link rel="apple-touch-icon" sizes="180x180" href="/uploads/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="theme-color" content="#ffffff">
 </head>
 <body>
     <header>
@@ -68,7 +67,7 @@
             <h2 class="section-title">Immigracion</h2>
             <div id="immigracion-articles"></div>
         </section>
-        
+
         <section id="full-article-view" class="full-article" style="display: none;"></section>
     </main>
 
@@ -158,6 +157,9 @@
                         <img src="${article.image_url}" alt="${article.title}">
                         <p><strong>Resumen:</strong> ${article.summary}</p>
                         <p>${article.content}</p>
+                        <div class="gallery">
+                            ${article.additional_images.map(image => `<img src="${image}" alt="${article.title}">`).join('')}
+                        </div>
                         <p class="article-date">Publicado: ${article.formatted_date || "Fecha no disponible"}</p>
                     </div>
                 `;
@@ -165,13 +167,10 @@
                 sections.forEach((section) => section.style.display = "none");
 
                 const backButton = fullArticleView.querySelector(".back-button");
-backButton.addEventListener("click", (e) => {
-    e.preventDefault();
-    // Update the URL to point to the last section and refresh the page
-    window.location.href = `#${lastSection}`;
-    window.location.reload();
-});
-
+                backButton.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    showSection(lastSection);
+                });
             };
 
             const hash = window.location.hash.replace("#", "");
