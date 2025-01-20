@@ -3,7 +3,6 @@ const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 const mongoose = require("mongoose");
-const sharp = require("sharp");
 
 const router = express.Router();
 
@@ -61,7 +60,7 @@ router.post(
     authenticate,
     upload.fields([
         { name: "image", maxCount: 1 }, // Main image
-        { name: "additional_images", maxCount: 10 }, // Up to 10 additional images
+        { name: "additional_images", maxCount: 5 }, // Up to 5 additional images
     ]),
     async (req, res) => {
         try {
@@ -72,30 +71,14 @@ router.post(
             }
 
             const serverUrl = req.protocol + "://" + req.get("host");
-
-            // Resize the main image if it exists
-            let mainImageUrl = null;
-            if (req.files["image"]) {
-                const mainImage = req.files["image"][0];
-                const resizedImagePath = `uploads/resized-${mainImage.filename}`;
-
-                // Resize the image using Sharp
-                await sharp(mainImage.path)
-                    .resize(300, 300, {
-                        fit: "inside", // Maintains aspect ratio
-                    })
-                    .toFile(resizedImagePath);
-
-                // Update the main image URL
-                mainImageUrl = `${serverUrl}/${resizedImagePath}`;
-            }
-
             const newArticle = new Article({
                 title,
                 content,
                 category: category ? category.toLowerCase() : "general",
                 summary: summary || content.slice(0, 100) + "...", // Use summary or truncate content
-                image_url: mainImageUrl, // Resized main image URL
+                image_url: req.files["image"]
+                    ? `${serverUrl}/uploads/${req.files["image"][0].filename}`
+                    : null, // Main image URL
                 additional_images: req.files["additional_images"]
                     ? req.files["additional_images"].map((file) => `${serverUrl}/uploads/${file.filename}`)
                     : [], // Array of additional image URLs
