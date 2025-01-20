@@ -8,7 +8,7 @@ const sharp = require("sharp");
 const router = express.Router();
 
 // MongoDB Connection
-const mongoURI = "your-mongodb-connection-string";
+const mongoURI = "mongodb+srv://El-Inspector:7J1uQEPG5xnIKDl6@el-inspector.nmbr4.mongodb.net/noticion?retryWrites=true&w=majority&appName=El-Inspector";
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log("MongoDB connected successfully"))
     .catch(err => console.error("MongoDB connection error:", err));
