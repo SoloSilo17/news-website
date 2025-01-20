@@ -281,6 +281,26 @@ footer {
     background: #f4f4f4; /* Style the scrollbar track */
 }
 
+/* Size of article when clicked */
+
+.article-content {
+    text-align: justify;
+    line-height: 1.6;
+    margin: 0 auto;
+    max-width: 800px;
+    font-size: 16px;
+    color: #333;
+}
+
+.article-content h3 {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.article-content p {
+    margin-bottom: 15px;
+}
 
 /* For screens smaller than 480px (phones) */
 @media (max-width: 480px) {

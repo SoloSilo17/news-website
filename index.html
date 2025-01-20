@@ -140,16 +140,11 @@
                 sections.forEach((section) => {
                     section.style.display = section.id === sectionId ? "block" : "none";
                 });
-
                 window.location.hash = `#${sectionId}`;
-
-                fetchArticlesByCategory(sectionId, `${sectionId}-articles`);
-
-                lastSection = sectionId;
-                localStorage.setItem("lastVisitedSection", sectionId);
             };
 
             const viewFullArticle = (article) => {
+                // Render the full article view
                 fullArticleView.innerHTML = `
                     <a href="#${lastSection}" class="back-button">&larr; Volver</a>
                     <div class="full-article-content">
@@ -166,10 +161,15 @@
                 fullArticleView.style.display = "block";
                 sections.forEach((section) => section.style.display = "none");
 
+                // Back button logic with auto-reload
                 const backButton = fullArticleView.querySelector(".back-button");
-                backButton.addEventListener("click", (e) => {
+                backButton.addEventListener("click", async (e) => {
                     e.preventDefault();
+                    // Show the last visited section
                     showSection(lastSection);
+
+                    // Reload the articles in the section
+                    await fetchArticlesByCategory(lastSection, `${lastSection}-articles`);
                 });
             };
 
